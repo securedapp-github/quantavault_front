@@ -1,0 +1,210 @@
+.key-details-panel {
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    width: 600px;
+    max-width: 90vw;
+    color: var(--color-text-primary);
+    padding: 32px;
+    position: relative;
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.panel-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.panel-subtitle {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.panel-close {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.panel-close:hover {
+    color: var(--color-text-primary);
+}
+
+/* Main Details Card */
+.details-card {
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-row.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.detail-value-large {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-top: 4px;
+}
+
+.status-badge-large {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge-large.active {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+/* Grid for Algo/Env */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.detail-group label {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.detail-value {
+    font-size: 16px;
+    color: var(--color-text-primary);
+}
+
+.detail-value.strong {
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.alg-badge {
+    display: inline-block;
+    background-color: rgba(66, 153, 225, 0.1);
+    /* Blue tint for Auth Algorithms usually */
+    color: #63b3ed;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Operations */
+.operations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.operation-pill {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-transform: capitalize;
+}
+
+.spacer-top {
+    margin-top: 8px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 16px;
+}
+
+/* Security Note */
+.security-note {
+    background-color: var(--color-bg-secondary);
+    border-radius: 16px;
+    padding: 16px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.security-note strong {
+    color: var(--color-text-primary);
+}
+
+/* Key ID Footer */
+.key-id-section {
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 16px 24px;
+}
+
+.key-id-box {
+    background-color: var(--color-bg-tertiary);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: monospace;
+    color: var(--color-text-primary);
+    font-size: 13px;
+    display: inline-block;
+}
+
+/* Auth Key Specifics */
+.fingerprint-badge {
+    display: inline-block;
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.public-key-section {
+    margin-bottom: 24px;
+}
+
+.public-key-section label {
+    font-size: 14px;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.public-key-box {
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: monospace;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}

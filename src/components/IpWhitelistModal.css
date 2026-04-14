@@ -1,0 +1,259 @@
+/* ============================
+   IP Whitelist Modal Styles
+   ============================ */
+
+.ip-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Add Row */
+.ip-add-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.ip-input-wrapper {
+    flex: 1;
+}
+
+.ip-input {
+    width: 100%;
+    background: var(--color-bg-tertiary);
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    padding: 10px 14px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.ip-input:focus {
+    border-color: var(--color-primary);
+}
+
+.ip-input::placeholder {
+    color: var(--color-text-muted);
+    font-family: inherit;
+}
+
+.ip-add-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.ip-add-btn:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.ip-add-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Error */
+.ip-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ef4444;
+    font-size: 13px;
+    padding: 8px 14px;
+    background: rgba(239, 68, 68, 0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+/* List Section */
+.ip-list-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ip-list-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ip-count {
+    color: var(--color-text-muted);
+    font-weight: 400;
+}
+
+/* IP List */
+.ip-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.ip-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ip-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ip-list::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+}
+
+.ip-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    transition: background 0.15s;
+}
+
+.ip-row:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.ip-row:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.ip-row-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ip-row-icon {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.ip-address {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    letter-spacing: 0.02em;
+}
+
+.ip-cidr-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(99, 102, 241, 0.12);
+    color: #818cf8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ip-delete-btn {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    background: none;
+    border: 1px solid transparent;
+    color: var(--color-text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ip-delete-btn:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.15);
+}
+
+/* Empty State */
+.ip-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 32px 16px;
+    color: var(--color-text-muted);
+    border: 1px dashed var(--color-border);
+    border-radius: 10px;
+}
+
+.ip-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.ip-empty-hint {
+    font-size: 12px !important;
+    color: var(--color-text-muted);
+    opacity: 0.7;
+}
+
+/* Footer */
+.ip-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border);
+}
+
+.ip-cancel-btn {
+    padding: 10px 20px;
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ip-cancel-btn:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-secondary);
+}
+
+.ip-save-btn {
+    padding: 10px 20px;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ip-save-btn:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.ip-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

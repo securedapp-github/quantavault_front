@@ -1,0 +1,167 @@
+/* CreateAccessPolicyModal.css */
+.create-access-policy-modal {
+    width: 600px;
+    max-width: 90vw;
+    background-color: var(--modal-bg) !important;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.create-access-policy-modal .modal-header,
+.create-access-policy-modal .modal-footer {
+    border-color: var(--color-border);
+    background-color: var(--modal-bg);
+}
+
+.create-access-policy-modal .modal-title {
+    color: var(--color-text-primary);
+}
+
+.create-access-policy-modal .modal-subtitle {
+    padding: 0 24px 16px 24px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.create-access-policy-modal .modal-close {
+    color: var(--color-text-muted);
+}
+
+.create-access-policy-modal .modal-close:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-hover);
+}
+
+/* Form Elements Overrides */
+.create-access-policy-modal .input,
+.create-access-policy-modal input[type="text"],
+.create-access-policy-modal select {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.create-access-policy-modal .input:focus,
+.create-access-policy-modal input[type="text"]:focus,
+.create-access-policy-modal select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+    outline: none;
+}
+
+.create-access-policy-modal .form-label {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.create-access-policy-modal .form-helper-text {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin-top: 6px;
+    margin-bottom: 20px;
+}
+
+/* Dropdown/Select styling wrapper */
+.select-wrapper {
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Operation Checkboxes (Universal Design) */
+.operations-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.operation-checkbox {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.2s ease;
+    gap: 16px;
+}
+
+.operation-checkbox:hover {
+    background: var(--color-bg-hover);
+    border-color: var(--color-border-light);
+}
+
+.operation-checkbox:has(input:checked) {
+    background-color: rgba(var(--color-primary-rgb), 0.05);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.operation-checkbox input[type="checkbox"] {
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+
+.operation-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.operation-title {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.operation-description {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* Summary items */
+.create-access-policy-modal .summary {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-border);
+}
+
+.create-access-policy-modal .summary-item {
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.create-access-policy-modal .summary-label {
+    color: var(--color-text-secondary);
+}
+
+.create-access-policy-modal .summary-value {
+    color: var(--color-text-primary);
+}
+
+.future-feature-notice {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    padding: 16px;
+    border-radius: 8px;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    margin-top: 24px;
+}

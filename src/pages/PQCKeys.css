@@ -1,0 +1,18 @@
+.pqc-keys-page {
+    padding: var(--spacing-2xl);
+}
+
+.table-wrapper {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header-title {
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+}

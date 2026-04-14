@@ -1,0 +1,334 @@
+.modal-step {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Unified Card Style (Universal) */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 16px;
+    margin-bottom: 0;
+}
+
+.radio-option:hover {
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-border-light);
+}
+
+/* Selected state - Blue Border & Glow */
+.radio-option:has(input:checked) {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Inputs */
+.radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+    margin: 2px 0 0 0;
+}
+
+/* Content Typography */
+.radio-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.radio-title {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.radio-description {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--color-text-primary);
+}
+
+.checkbox-option:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg-hover);
+}
+
+.checkbox-option:has(input:checked) {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg-secondary);
+}
+
+.summary {
+    background-color: var(--color-bg-tertiary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.summary-value {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Specific overrides for this modal to match screenshot */
+.create-pqc-modal {
+    background-color: var(--color-bg-primary) !important;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.create-pqc-modal .modal-header,
+.create-pqc-modal .modal-footer {
+    border-color: var(--color-border);
+    background-color: var(--color-bg-primary);
+}
+
+.create-pqc-modal .modal-title {
+    color: var(--color-text-primary);
+}
+
+.create-pqc-modal .modal-close {
+    color: var(--color-text-muted);
+}
+
+.create-pqc-modal .modal-close:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-hover);
+}
+
+/* Form Elements in Dark Mode */
+.modal-body .input {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+}
+
+.modal-body .input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.radio-option {
+    border-color: var(--color-border);
+    background-color: transparent;
+}
+
+.radio-option .radio-title {
+    color: var(--color-text-primary);
+}
+
+.radio-option .radio-description {
+    color: var(--color-text-secondary);
+}
+
+.radio-option:hover {
+    border-color: var(--color-border-light);
+    background-color: var(--color-bg-hover);
+}
+
+.radio-option:has(input:checked) {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg-secondary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Adjust checkbox and other texts */
+.form-label {
+    color: var(--color-text-secondary);
+}
+
+.checkbox-option {
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.checkbox-option:hover {
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-border-light);
+}
+
+/* Footer Buttons */
+.modal-footer .btn-primary,
+.modal-footer button:not(.btn-secondary) {
+    background-color: var(--color-primary);
+    color: #ffffff; /* Keep white for primary buttons as they have a dark blue background */
+}
+
+.modal-footer .btn-secondary {
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+}
+
+.modal-footer .btn-secondary:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-hover);
+}
+
+/* Unified Card Styles for Step 2 (Radio & Checkbox) */
+.operations-list,
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Base card style shared by radio-option and operation-checkbox-card */
+.radio-option,
+.operation-checkbox-card {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 16px;
+    margin-bottom: 0;
+}
+
+.radio-option:hover,
+.operation-checkbox-card:hover {
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-primary);
+}
+
+/* Selected state */
+.radio-option:has(input:checked),
+.operation-checkbox-card:has(input:checked) {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Inputs */
+.radio-option input[type="radio"],
+.operation-checkbox-card input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Content Typography */
+.radio-content,
+.operation-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.radio-title,
+.operation-title {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+/* Step 4: Review styles matching screenshot */
+.summary-card {
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-row .summary-label {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}
+
+.summary-row .summary-value {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    font-size: 14px;
+    text-align: right;
+}
+
+.info-note {
+    background-color: var(--color-bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.info-note strong {
+    color: var(--color-text-primary);
+    margin-right: 4px;
+}
+
+/* Update Create Button to have checkmark spacing */
+.modal-footer .btn-create {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 20px;
+    padding-right: 24px;
+    border-radius: 20px;
+    /* More rounded as per screenshot buttons usually are */
+}

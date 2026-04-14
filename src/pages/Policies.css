@@ -1,0 +1,88 @@
+.policies-page {
+    padding: var(--spacing-2xl);
+}
+
+.policies-table-container {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header-title {
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.key-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.inactive-warning {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #eab308; /* Yellow-600 logic */
+    background: rgba(234, 179, 8, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+/* Mobile Fix: Show Authentication Key label & move to body */
+@media screen and (max-width: 768px) {
+    .policies-table-container .mobile-layout-cards .table td:nth-child(2) {
+        order: 10 !important;
+        /* Move to body */
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-top: 1px solid var(--color-border) !important;
+        margin-top: var(--spacing-xs);
+        padding-top: var(--spacing-md);
+        text-align: left !important;
+        padding: var(--spacing-sm) 0 !important;
+    }
+
+    .policies-table-container .mobile-layout-cards .table td:nth-child(2)::before {
+        display: block !important;
+        content: attr(data-label);
+        font-weight: var(--font-weight-medium);
+        color: var(--color-text-secondary);
+        margin-right: var(--spacing-md);
+        flex-shrink: 0;
+    }
+
+    /* Show Status in header row next to Name */
+    .policies-table-container .mobile-layout-cards .table td:nth-child(1) {
+        width: 65% !important;
+    }
+
+    .policies-table-container .mobile-layout-cards .table td:nth-child(4) {
+        order: -1 !important;
+        width: 35% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        border: none !important;
+        padding: var(--spacing-sm) 0 !important;
+        border-top: none !important;
+        margin-top: 0 !important;
+    }
+
+    .policies-table-container .mobile-layout-cards .table td:nth-child(4)::before {
+        display: none !important;
+    }
+
+    /* Force visibility in collapsed state for Name(1) and Status(4) */
+    .policies-table-container .mobile-layout-cards .table tr:not(.expanded) td:nth-child(4) {
+        display: flex !important;
+    }
+}

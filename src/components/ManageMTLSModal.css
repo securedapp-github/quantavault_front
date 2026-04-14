@@ -1,0 +1,342 @@
+/* ManageMTLSModal Styles */
+
+.mtls-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Section Titles */
+.mtls-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Issue Certificate Section */
+.mtls-issue-section {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 16px;
+    background-color: var(--color-surface);
+}
+
+.mtls-form-group {
+    margin-bottom: 16px;
+}
+
+.mtls-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--color-text);
+    font-size: 13px;
+}
+
+.mtls-hint {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+.mtls-file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mtls-upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 2px dashed var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mtls-upload-btn:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.mtls-csr-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--color-success-light);
+    border: 1px solid var(--color-success);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--color-success);
+}
+
+.mtls-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-size: 13px;
+    transition: border-color 0.2s ease;
+}
+
+.mtls-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* Error and Success Messages */
+.mtls-error,
+.mtls-success {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.mtls-error {
+    background-color: var(--color-error-light);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+}
+
+.mtls-success {
+    background-color: var(--color-success-light);
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+}
+
+/* Issue Button */
+.mtls-issue-btn {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mtls-issue-btn:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mtls-issue-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Certificates List Section */
+.mtls-certs-section {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 16px;
+    background-color: var(--color-surface);
+}
+
+.mtls-loading {
+    text-align: center;
+    padding: 16px;
+    color: var(--color-text-muted);
+    font-size: 13px;
+}
+
+.mtls-empty {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--color-text-muted);
+}
+
+.mtls-empty > svg {
+    margin-bottom: 8px;
+    opacity: 0.5;
+}
+
+.mtls-empty-hint {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.mtls-cert-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mtls-cert-card {
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 12px;
+    background-color: var(--color-background);
+    transition: all 0.2s ease;
+}
+
+.mtls-cert-card:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+}
+
+.mtls-cert-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.mtls-cert-name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.mtls-cert-status {
+    display: inline-block;
+    padding: 2px 8px;
+    background-color: var(--color-success-light);
+    color: var(--color-success);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.mtls-cert-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.mtls-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.mtls-detail-label {
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.mtls-detail-value {
+    color: var(--color-text);
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 11px;
+    word-break: break-all;
+}
+
+.mtls-cert-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.mtls-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mtls-action-btn.download {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.mtls-action-btn.download:hover {
+    background-color: var(--color-primary-light);
+}
+
+.mtls-action-btn.revoke {
+    color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.mtls-action-btn.revoke:hover {
+    background-color: var(--color-error-light);
+}
+
+/* Modal Footer */
+.mtls-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 16px;
+    margin-top: 16px;
+}
+
+.mtls-close-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mtls-close-btn:hover {
+    background-color: var(--color-background);
+    border-color: var(--color-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .mtls-modal-body {
+        max-height: 80vh;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .mtls-detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .mtls-cert-actions {
+        flex-direction: column;
+    }
+
+    .mtls-action-btn {
+        width: 100%;
+    }
+}
