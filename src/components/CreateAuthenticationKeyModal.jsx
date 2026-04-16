@@ -79,7 +79,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate }) => {
         
         const fileName = createdKey?.name || formData.name || 'private_key';
         const safeName = fileName.replace(/\s+/g, '_');
-        element.download = `${safeName}_private_key.txt`;
+        element.download = `${safeName}_private_key.pem`;
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
