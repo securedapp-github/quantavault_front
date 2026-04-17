@@ -246,10 +246,50 @@ input:checked+.slider:before {
     background: rgba(239, 68, 68, 0.08);
 }
 
-.tfa-enable-btn {
-    font-size: 13px !important;
-    padding: 8px 20px !important;
-    border-radius: 8px !important;
+/* 2FA Action Button Styles */
+.tfa-action-container {
+    display: flex;
+    align-items: center;
+}
+
+.tfa-action-btn {
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tfa-action-btn.enable {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.tfa-action-btn.enable:hover {
+    background: rgba(0, 168, 255, 0.08);
+}
+
+.tfa-action-btn.disable {
+    background: #ef4444;
+    border: 1px solid #ef4444;
+    color: #ffffff;
+}
+
+.tfa-action-btn.disable:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.tfa-action-btn:active {
+    transform: scale(0.98);
 }
 
 /* 2FA Setup Section */
@@ -302,8 +342,9 @@ input:checked+.slider:before {
 }
 
 .tfa-qr-image {
+    max-width: 100%;
+    height: auto;
     width: 200px;
-    height: 200px;
     border-radius: 4px;
 }
 
@@ -693,4 +734,118 @@ input:checked+.slider:before {
 .mtls-manage-btn:hover {
     opacity: 0.9;
     transform: translateY(-1px);
+}
+
+/* ============================
+   Responsive Utilities
+   ============================ */
+
+.desktop-only {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.theme-dropdown {
+    width: 100%;
+    padding: 10px 16px;
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+}
+
+.theme-dropdown:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(0, 168, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: block !important;
+    }
+
+    .setting-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .setting-action {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .theme-selector {
+        width: 100%;
+    }
+
+    .tfa-action-container {
+        width: 100%;
+    }
+
+    .tfa-action-btn {
+        width: 100%;
+        min-width: 100%;
+        padding: 12px 16px;
+    }
+
+    /* 2FA Setup Flow Mobile Refinements */
+    .tfa-setup-steps {
+        gap: 24px;
+    }
+
+    .tfa-step {
+        align-items: flex-start;
+    }
+
+    .tfa-step-text {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .tfa-verify-setup {
+        flex-direction: column;
+        gap: 16px;
+        max-width: 100%;
+    }
+
+    .tfa-setup-input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .tfa-setup-verify-btn {
+        width: 100%;
+        padding: 12px !important;
+    }
+
+    .tfa-secret-display {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .tfa-copy-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }

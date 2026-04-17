@@ -12,6 +12,7 @@ import Billing from './pages/Billing';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import { QuantumProvider, useQuantum } from './context/QuantumContext';
+import { useTheme } from './context/ThemeContext';
 import GlobalLoader from './components/GlobalLoader';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import './App.css';
@@ -34,20 +35,34 @@ const RedirectIfAuth = ({ children }) => {
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { isDark } = useTheme();
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID";
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <RequireAuth>
         <div className="app">
-          <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-          <main className="main-content">
+          {/* Mobile Header */}
+          <header className="mobile-header">
             <button
-              className="mobile-menu-toggle"
+              className="hamburger-toggle"
               onClick={() => setIsSidebarOpen(true)}
             >
-              <Menu size={24} />
+              <span></span>
+              <span></span>
+              <span></span>
             </button>
+            <div className="mobile-logo-container">
+              <img
+                src={isDark ? "/3.svg" : "/4.svg"}
+                alt="QuantumVault"
+                className="mobile-logo"
+              />
+            </div>
+          </header>
+
+          <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+          <main className="main-content">
             <Outlet />
           </main>
         </div>

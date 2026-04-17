@@ -253,22 +253,20 @@ const Settings = () => {
                                     Add an extra layer of security to your account using an authenticator app.
                                 </p>
                             </div>
-                            <div className="setting-action">
-                                {loadingStatus ? (
-                                    <span style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>Loading...</span>
-                                ) : is2FAEnabled ? (
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-                                        <span className="tfa-status-badge enabled">Enabled</span>
-                                        <button className="tfa-disable-btn" onClick={handleDisable2FA}>
-                                            Disable
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <Button variant="primary" onClick={handleEnable2FA} className="tfa-enable-btn">
-                                        Enable
-                                    </Button>
-                                )}
-                            </div>
+                                <div className="setting-action">
+                                    {loadingStatus ? (
+                                        <span style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>Loading...</span>
+                                    ) : (
+                                        <div className="tfa-action-container">
+                                            <button 
+                                                className={`tfa-action-btn ${is2FAEnabled ? 'disable' : 'enable'}`}
+                                                onClick={is2FAEnabled ? handleDisable2FA : handleEnable2FA}
+                                            >
+                                                {is2FAEnabled ? 'Disable 2FA' : 'Enable 2FA'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                         </div>
 
                         {/* 2FA Setup Flow */}
@@ -360,7 +358,7 @@ const Settings = () => {
                             <div className="setting-info">
                                 <h3 className="setting-name">IP Access Control</h3>
                                 <p className="setting-description">
-                                    Restrict cryptographic operations (Sign, Verify, Encrypt, Decrypt) to authorized IP addresses.
+                                    Restrict cryptographic operations (Sign, Verify, etc.) to authorized IP addresses.
                                 </p>
                             </div>
                         </div>
@@ -434,7 +432,7 @@ const Settings = () => {
                             <div className="setting-info">
                                 <h3 className="setting-name">Certificate-Based Access Control</h3>
                                 <p className="setting-description">
-                                    Enforce mutual TLS authentication for all API operations. When enabled, only valid client certificates can access your account.
+                                    Implement an additional layer of identity verification using client-side certificates for cryptographically secure access.
                                 </p>
                             </div>
                         </div>
@@ -452,7 +450,7 @@ const Settings = () => {
                                     </div>
                                     <div className="mtls-radio-content">
                                         <span className="mtls-radio-title">Standard Access</span>
-                                        <span className="mtls-radio-desc">Access your account with username and password authentication only.</span>
+                                        <span className="mtls-radio-desc">Access your account with authentication key and auth key id only.</span>
                                     </div>
                                 </button>
 
@@ -465,7 +463,7 @@ const Settings = () => {
                                     </div>
                                     <div className="mtls-radio-content">
                                         <span className="mtls-radio-title">MTLS Protected</span>
-                                        <span className="mtls-radio-desc">Require valid client certificates for all API operations.</span>
+                                        <span className="mtls-radio-desc">Access your account with additional mtls for enhanced security.</span>
                                     </div>
                                 </button>
                             </div>
@@ -504,28 +502,41 @@ const Settings = () => {
                                 </p>
                             </div>
                             <div className="setting-action">
-                                <div className="theme-options">
-                                    <button
-                                        className={`theme-option ${theme === 'light' ? 'active' : ''}`}
-                                        onClick={() => setTheme('light')}
-                                    >
-                                        <Sun size={16} />
-                                        <span>Light</span>
-                                    </button>
-                                    <button
-                                        className={`theme-option ${theme === 'dark' ? 'active' : ''}`}
-                                        onClick={() => setTheme('dark')}
-                                    >
-                                        <Moon size={16} />
-                                        <span>Dark</span>
-                                    </button>
-                                    <button
-                                        className={`theme-option ${theme === 'system' ? 'active' : ''}`}
-                                        onClick={() => setTheme('system')}
-                                    >
-                                        <Monitor size={16} />
-                                        <span>System</span>
-                                    </button>
+                                <div className="theme-selector">
+                                    <div className="theme-options desktop-only">
+                                        <button
+                                            className={`theme-option ${theme === 'light' ? 'active' : ''}`}
+                                            onClick={() => setTheme('light')}
+                                        >
+                                            <Sun size={16} />
+                                            <span>Light</span>
+                                        </button>
+                                        <button
+                                            className={`theme-option ${theme === 'dark' ? 'active' : ''}`}
+                                            onClick={() => setTheme('dark')}
+                                        >
+                                            <Moon size={16} />
+                                            <span>Dark</span>
+                                        </button>
+                                        <button
+                                            className={`theme-option ${theme === 'system' ? 'active' : ''}`}
+                                            onClick={() => setTheme('system')}
+                                        >
+                                            <Monitor size={16} />
+                                            <span>System</span>
+                                        </button>
+                                    </div>
+                                    <div className="theme-dropdown-container mobile-only">
+                                        <select 
+                                            className="theme-dropdown" 
+                                            value={theme} 
+                                            onChange={(e) => setTheme(e.target.value)}
+                                        >
+                                            <option value="light">Light</option>
+                                            <option value="dark">Dark</option>
+                                            <option value="system">System</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
