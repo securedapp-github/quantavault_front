@@ -3,10 +3,32 @@
 }
 
 /* Unified Card Style (Universal) */
+.radio-group-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.algo-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.algo-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-left: 4px;
+    margin-bottom: 2px;
+}
+
 .radio-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .radio-option {
@@ -331,4 +353,37 @@
     padding-right: 24px;
     border-radius: 20px;
     /* More rounded as per screenshot buttons usually are */
+}
+
+@media (max-height: 500px) {
+    .radio-group-container {
+        gap: 12px;
+    }
+
+    .algo-group {
+        gap: 4px;
+    }
+
+    .radio-option {
+        padding: 10px 16px;
+        gap: 12px;
+    }
+
+    .radio-title {
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .summary-card {
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 8px;
+    }
+
+    .info-note {
+        padding: 12px;
+    }
 }

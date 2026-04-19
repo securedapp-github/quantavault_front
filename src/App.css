@@ -75,3 +75,15 @@
     display: flex;
   }
 }
+
+@media (max-height: 500px) and (max-width: 1024px) {
+  .main-content {
+    padding-top: calc(52px + var(--spacing-md));
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+  
+  .mobile-header {
+    height: 52px;
+  }
+}

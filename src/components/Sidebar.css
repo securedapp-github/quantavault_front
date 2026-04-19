@@ -7,7 +7,7 @@
     background-color: var(--color-bg-secondary);
     display: flex;
     flex-direction: column;
-    z-index: 1100;
+    z-index: 2000;
     transition: transform var(--transition-base);
     border-right: 1px solid var(--color-border);
     /* Add explicit border */
@@ -28,7 +28,7 @@
 }
 
 /* Responsive Logic */
-@media (max-width: 1024px) and (orientation: portrait) {
+@media (max-width: 1024px) {
     .sidebar {
         transform: translateX(-100%);
     }

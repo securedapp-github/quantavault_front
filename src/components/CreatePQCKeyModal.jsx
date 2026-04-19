@@ -113,20 +113,31 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
 
                             <div className="form-group">
                                 <label className="form-label">Algorithm</label>
-                                <div className="radio-group">
-                                    {['ML-DSA', 'ML-KEM', 'ECDSA', 'Hybrid-DSA', 'Hybrid-KEM', 'AES-256'].map((algo) => (
-                                        <label key={algo} className="radio-option">
-                                            <input
-                                                type="radio"
-                                                name="algorithm"
-                                                value={algo}
-                                                checked={formData.algorithm === algo}
-                                                onChange={() => handleAlgorithmChange(algo)}
-                                            />
-                                            <div className="radio-content">
-                                                <div className="radio-title">{algo}</div>
+                                <div className="radio-group-container">
+                                    {[
+                                        { label: 'Sign & Verify', algos: ['ML-DSA', 'ECDSA', 'Hybrid-DSA'] },
+                                        { label: 'Encapsulate & Decapsulate', algos: ['ML-KEM', 'Hybrid-KEM'] },
+                                        { label: 'Encrypt & Decrypt', algos: ['AES-256'] }
+                                    ].map((group) => (
+                                        <div key={group.label} className="algo-group">
+                                            <div className="algo-group-label">{group.label}</div>
+                                            <div className="radio-group">
+                                                {group.algos.map((algo) => (
+                                                    <label key={algo} className="radio-option">
+                                                        <input
+                                                            type="radio"
+                                                            name="algorithm"
+                                                            value={algo}
+                                                            checked={formData.algorithm === algo}
+                                                            onChange={() => handleAlgorithmChange(algo)}
+                                                        />
+                                                        <div className="radio-content">
+                                                            <div className="radio-title">{algo}</div>
+                                                        </div>
+                                                    </label>
+                                                ))}
                                             </div>
-                                        </label>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
