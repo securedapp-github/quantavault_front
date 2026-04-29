@@ -50,7 +50,7 @@ const Policies = () => {
                 const isInactive = keyObj && keyObj.status !== 'active';
                 return (
                     <div className="key-cell">
-                        <span>{row.pqcKey || <span style={{ opacity: 0.5 }}>—</span>}</span>
+                        <span>{row.pqcKey || <span style={{ opacity: 0.5 }}>-</span>}</span>
                         {isInactive && (
                             <span className="inactive-warning" title={`Key is ${keyObj.status}`}>
                                 ⚠️ Inactive

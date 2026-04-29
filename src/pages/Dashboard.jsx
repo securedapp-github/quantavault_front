@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Key, FileText, ArrowRight, Shield, Activity } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import OnboardingTutorial from '../components/OnboardingTutorial';
 import { useQuantum } from '../context/QuantumContext';
 import { STATUS } from '../utils/constants';
 import './Dashboard.css';
@@ -11,6 +12,22 @@ import './Dashboard.css';
 const Dashboard = () => {
     const navigate = useNavigate();
     const { pqcKeys, authKeys, auditLogs, dashboardStats } = useQuantum();
+    const [showTutorial, setShowTutorial] = useState(false);
+
+    useEffect(() => {
+        if (!dashboardStats) return;
+
+        const isFirstLoginPhase = dashboardStats.totalOperations <= 2;
+        const dismissedInSession = sessionStorage.getItem('tutorial_dismissed_session');
+
+        if (isFirstLoginPhase && !dismissedInSession) {
+            // Delay slightly for better UX
+            const timer = setTimeout(() => {
+                setShowTutorial(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [dashboardStats]);
 
     // Use backend stats if available, fallback to local counts
     const stats = dashboardStats || {};
@@ -26,6 +43,11 @@ const Dashboard = () => {
     const recentLogs = auditLogs.filter(log => new Date(log.createdAt).getTime() > twentyFourHoursAgo);
     const totalOps = recentLogs.length;
     const successfulEvents = recentLogs.filter(log => log.result === STATUS.SUCCESS).length;
+
+    const handleCloseTutorial = () => {
+        sessionStorage.setItem('tutorial_dismissed_session', 'true');
+        setShowTutorial(false);
+    };
 
     return (
         <div className="page">
@@ -61,8 +83,8 @@ const Dashboard = () => {
                             <span className="metric-label">Crypto Operations</span>
                             <Activity size={16} className="metric-icon" />
                         </div>
-                        <div className="metric-value">{totalOps}</div>
-                        <div className="metric-sublabel">Last 24 hours</div>
+                        <div className="metric-value">{stats.totalOperations ?? totalOps}</div>
+                        <div className="metric-sublabel">Total Operations</div>
                     </Card>
 
                     <Card className="metric-card">
@@ -128,6 +150,11 @@ const Dashboard = () => {
                     </div>
                 </section>
             </div>
+
+            <OnboardingTutorial 
+                isOpen={showTutorial} 
+                onClose={handleCloseTutorial} 
+            />
         </div>
     );
 };

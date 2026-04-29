@@ -86,8 +86,7 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
 
     const isDuplicateName = existingKeys.some(key => 
         key.name.toLowerCase() === formData.name.trim().toLowerCase() && 
-        key.status.toLowerCase() === 'active' &&
-        (!isEditMode || key.id !== initialData.id)
+        (!isEditMode || formData.name.trim().toLowerCase() !== initialData.name.toLowerCase())
     );
 
     return (

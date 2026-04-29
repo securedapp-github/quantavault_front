@@ -3,10 +3,11 @@ import { Download, Upload, Check, ChevronRight, ChevronLeft, Key } from 'lucide-
 import Button from './Button';
 import Input from './Input';
 import { getDeviceFingerprint } from '../utils/deviceFingerprint';
+import { formatFingerprint } from '../utils/fingerprintFormatter';
 import './CreateAuthenticationKeyModal.css';
 import './Modal.css';
 
-const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate }) => {
+const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys = [] }) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -36,6 +37,10 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate }) => {
             }, 0);
         }
     }, [isOpen]);
+
+    const isDuplicateName = existingKeys.some(key => 
+        key.name.toLowerCase() === formData.name.trim().toLowerCase()
+    );
 
     if (!isOpen) return null;
 
@@ -109,6 +114,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate }) => {
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Production API Key"
                                 autoFocus
+                                error={isDuplicateName ? `A key with the name "${formData.name}" already exists.` : null}
                             />
 
                             <div className="form-group" style={{ marginTop: '24px' }}>
@@ -259,7 +265,9 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate }) => {
                                 <div className="summary" style={{ marginTop: '20px' }}>
                                     <div className="summary-item">
                                         <span className="summary-label">Fingerprint:</span>
-                                        <span className="summary-value" style={{ fontFamily: 'monospace' }}>{createdKey?.fingerprint}</span>
+                                        <span className="summary-value" style={{ fontFamily: 'monospace' }}>
+                                            {createdKey?.fingerprint ? formatFingerprint(createdKey.fingerprint) : 'N/A'}
+                                        </span>
                                     </div>
                                 </div>
                             )}
@@ -279,7 +287,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate }) => {
                         <Button
                             onClick={handleNext}
                             disabled={
-                                (step === 1 && !formData.name) ||
+                                (step === 1 && (!formData.name || isDuplicateName)) ||
                                 (step === 2 && formData.source === 'upload' && !formData.publicKey)
                             }
                         >

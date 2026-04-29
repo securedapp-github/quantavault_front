@@ -98,9 +98,21 @@ const AuditLogs = () => {
                 </span>
             )
         },
-        { header: 'Authentication Key', key: 'authKey' },
-        { header: 'PQC Key', key: 'pqcKey' },
-        { header: 'Source IP', key: 'sourceIP' }, // Added to match header in screenshot
+        { 
+            header: 'Authentication Key', 
+            key: 'authKey',
+            render: (row) => <span>{row.authKey === '—' ? '-' : row.authKey}</span>
+        },
+        { 
+            header: 'PQC Key', 
+            key: 'pqcKey',
+            render: (row) => <span>{row.pqcKey === '—' ? '-' : row.pqcKey}</span>
+        },
+        { 
+            header: 'Source IP', 
+            key: 'sourceIP',
+            render: (row) => <span>{row.sourceIP === '—' ? '-' : row.sourceIP}</span>
+        },
         {
             header: 'Result',
             key: 'result',
@@ -238,14 +250,14 @@ const AuditLogs = () => {
                                                     All Authentication Keys
                                                     {filterAuthKey === 'All' && <Check size={14} className="check-icon" />}
                                                 </div>
-                                                {authKeys.map(k => (
+                                                {Array.from(new Set(authKeys.map(k => k.name))).map(name => (
                                                     <div
-                                                        key={k.id}
-                                                        className={`dropdown-item ${filterAuthKey === k.name ? 'selected' : ''}`}
-                                                        onClick={() => { setFilterAuthKey(k.name); setIsAuthKeyDropdownOpen(false); }}
+                                                        key={name}
+                                                        className={`dropdown-item ${filterAuthKey === name ? 'selected' : ''}`}
+                                                        onClick={() => { setFilterAuthKey(name); setIsAuthKeyDropdownOpen(false); }}
                                                     >
-                                                        {k.name}
-                                                        {filterAuthKey === k.name && <Check size={14} className="check-icon" />}
+                                                        {name}
+                                                        {filterAuthKey === name && <Check size={14} className="check-icon" />}
                                                     </div>
                                                 ))}
                                             </div>
@@ -277,14 +289,14 @@ const AuditLogs = () => {
                                                     All PQC Keys
                                                     {filterPQCKey === 'All' && <Check size={14} className="check-icon" />}
                                                 </div>
-                                                {pqcKeys.map(k => (
+                                                {Array.from(new Set(pqcKeys.map(k => k.name))).map(name => (
                                                     <div
-                                                        key={k.id}
-                                                        className={`dropdown-item ${filterPQCKey === k.name ? 'selected' : ''}`}
-                                                        onClick={() => { setFilterPQCKey(k.name); setIsPQCKeyDropdownOpen(false); }}
+                                                        key={name}
+                                                        className={`dropdown-item ${filterPQCKey === name ? 'selected' : ''}`}
+                                                        onClick={() => { setFilterPQCKey(name); setIsPQCKeyDropdownOpen(false); }}
                                                     >
-                                                        {k.name}
-                                                        {filterPQCKey === k.name && <Check size={14} className="check-icon" />}
+                                                        {name}
+                                                        {filterPQCKey === name && <Check size={14} className="check-icon" />}
                                                     </div>
                                                 ))}
                                             </div>

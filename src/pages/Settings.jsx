@@ -407,7 +407,7 @@ const Settings = () => {
                                 {ipWhitelist.length === 0 && (
                                     <span className="ip-warning-text">
                                         <AlertCircle size={12} />
-                                        No IPs added — all crypto operations will be blocked
+                                        No IPs added - all crypto operations will be blocked
                                     </span>
                                 )}
                             </div>

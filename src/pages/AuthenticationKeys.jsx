@@ -156,6 +156,7 @@ const AuthenticationKeys = () => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onCreate={handleCreateKey}
+                existingKeys={authKeys}
             />
 
             <AuthenticationKeyDetailsModal

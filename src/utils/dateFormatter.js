@@ -4,7 +4,7 @@
  * @returns {string} - The formatted date string (e.g., "Feb 10, 2026, 8:30 PM").
  */
 export const formatDate = (isoString) => {
-    if (!isoString) return '—';
+    if (!isoString) return '-';
     try {
         const date = new Date(isoString);
         // Check if date is valid
@@ -30,7 +30,7 @@ export const formatDate = (isoString) => {
  * @returns {string} - The formatted date string (e.g., "Feb 10, 2026").
  */
 export const formatDateOnly = (isoString) => {
-    if (!isoString) return '—';
+    if (!isoString) return '-';
     try {
         const date = new Date(isoString);
         if (isNaN(date.getTime())) return isoString;
