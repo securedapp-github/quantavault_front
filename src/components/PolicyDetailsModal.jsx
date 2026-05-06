@@ -1,4 +1,5 @@
 import { formatDate } from '../utils/dateFormatter';
+import { truncateName } from '../utils/validation';
 import './PolicyDetailsModal.css';
 import { useQuantum } from '../context/QuantumContext';
 
@@ -93,7 +94,9 @@ const PolicyDetailsModal = ({ isOpen, onClose, policyData, onEdit }) => {
                         <div className="detail-row header-row">
                             <div className="detail-group">
                                 <label>Policy Name</label>
-                                <div className="detail-value-large">{policyData.name}</div>
+                                <div className="detail-value-large" title={policyData.name}>
+                                    {truncateName(policyData.name)}
+                                </div>
                             </div>
                             <span className={`status-badge-large ${policyData.status?.toLowerCase() || 'active'}`}>
                                 {policyData.status || 'Active'}
@@ -111,13 +114,13 @@ const PolicyDetailsModal = ({ isOpen, onClose, policyData, onEdit }) => {
                         <div className="access-flow-container">
                             <div className="flow-card auth-flow">
                                 <label>Authentication Key</label>
-                                <div className="flow-value">{policyData.authKey || 'trial'}</div>
+                                <div className="flow-value" title={policyData.authKey}>{truncateName(policyData.authKey || 'trial')}</div>
                                 <span className="flow-badge">{getAuthKeyAlgo(policyData.authKey)}</span>
                             </div>
                             <div className="flow-arrow">→</div>
                             <div className="flow-card pqc-flow">
                                 <label>PQC Key</label>
-                                <div className="flow-value">{policyData.pqcKey || 'trial'}</div>
+                                <div className="flow-value" title={policyData.pqcKey}>{truncateName(policyData.pqcKey || 'trial')}</div>
                                 <span className="flow-badge">{getPQCKeyAlgo(policyData.pqcKey)}</span>
                             </div>
                         </div>

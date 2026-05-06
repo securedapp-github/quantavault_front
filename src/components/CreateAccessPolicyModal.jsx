@@ -3,6 +3,7 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useQuantum } from '../context/QuantumContext';
 import Button from './Button';
 import Input from './Input';
+import { validateName } from '../utils/validation';
 import './CreateAccessPolicyModal.css';
 import './Modal.css';
 
@@ -67,6 +68,8 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
             }
         }
     }, [isOpen, editData]);
+
+    const isNameInvalid = !validateName(formData.name);
 
     if (!isOpen) return null;
 
@@ -154,6 +157,8 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Production API Access"
                                 autoFocus
+                                maxLength={50}
+                                error={isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 50 characters." : null}
                             />
 
                             <div className="form-group" style={{ marginTop: '24px' }}>
@@ -313,7 +318,7 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
                         <Button
                             onClick={handleNext}
                             disabled={
-                                (step === 1 && (!formData.name || !formData.authKey || !formData.pqcKey)) ||
+                                (step === 1 && (!formData.name || !formData.authKey || !formData.pqcKey || isNameInvalid)) ||
                                 (step === 2 && !Object.entries(formData.operations).some(([key, val]) => {
                                     if (!val) return false;
                                     const selectedKeyObj = pqcKeys.find(k => k.name === formData.pqcKey);

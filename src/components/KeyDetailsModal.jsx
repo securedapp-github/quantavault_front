@@ -1,4 +1,5 @@
 import { formatDate } from '../utils/dateFormatter';
+import { truncateName } from '../utils/validation';
 import './KeyDetailsModal.css';
 
 const KeyDetailsModal = ({ isOpen, onClose, keyData }) => {
@@ -36,7 +37,9 @@ const KeyDetailsModal = ({ isOpen, onClose, keyData }) => {
                         <div className="detail-row header-row">
                             <div className="detail-group">
                                 <label>Key Name</label>
-                                <div className="detail-value-large">{keyData.name}</div>
+                                <div className="detail-value-large" title={keyData.name}>
+                                    {truncateName(keyData.name)}
+                                </div>
                             </div>
                             <span className={`status-badge-large ${keyData.status?.toLowerCase()}`}>
                                 {keyData.status}

@@ -13,6 +13,7 @@ import ActionMenu from '../components/ActionMenu';
 import { useLocation } from 'react-router-dom';
 import { useQuantum } from '../context/QuantumContext';
 import { formatDate } from '../utils/dateFormatter';
+import { truncateName } from '../utils/validation';
 import './PQCKeys.css';
 
 const PQCKeys = () => {
@@ -115,7 +116,13 @@ const PQCKeys = () => {
     };
 
     const columns = [
-        { header: 'Key Name', key: 'name' },
+        { 
+            header: 'Key Name', 
+            key: 'name',
+            render: (row) => (
+                <span title={row.name}>{truncateName(row.name)}</span>
+            )
+        },
         {
             header: 'Algorithm',
             key: 'algorithm',

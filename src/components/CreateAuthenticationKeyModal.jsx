@@ -4,6 +4,7 @@ import Button from './Button';
 import Input from './Input';
 import { getDeviceFingerprint } from '../utils/deviceFingerprint';
 import { formatFingerprint } from '../utils/fingerprintFormatter';
+import { validateName } from '../utils/validation';
 import './CreateAuthenticationKeyModal.css';
 import './Modal.css';
 
@@ -41,6 +42,8 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
     const isDuplicateName = existingKeys.some(key => 
         key.name.toLowerCase() === formData.name.trim().toLowerCase()
     );
+
+    const isNameInvalid = !validateName(formData.name);
 
     if (!isOpen) return null;
 
@@ -114,7 +117,11 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Production API Key"
                                 autoFocus
-                                error={isDuplicateName ? `A key with the name "${formData.name}" already exists.` : null}
+                                maxLength={50}
+                                error={
+                                    isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 50 characters." :
+                                    isDuplicateName ? `A key with the name "${formData.name}" already exists.` : null
+                                }
                             />
 
                             <div className="form-group" style={{ marginTop: '24px' }}>
@@ -287,7 +294,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                         <Button
                             onClick={handleNext}
                             disabled={
-                                (step === 1 && (!formData.name || isDuplicateName)) ||
+                                (step === 1 && (!formData.name || isDuplicateName || isNameInvalid)) ||
                                 (step === 2 && formData.source === 'upload' && !formData.publicKey)
                             }
                         >

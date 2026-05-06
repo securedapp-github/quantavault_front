@@ -9,6 +9,7 @@ import CreateAccessPolicyModal from '../components/CreateAccessPolicyModal';
 import PolicyDetailsModal from '../components/PolicyDetailsModal';
 import ActionMenu from '../components/ActionMenu';
 import { formatDate } from '../utils/dateFormatter';
+import { truncateName } from '../utils/validation';
 import './Policies.css';
 
 import { useQuantum } from '../context/QuantumContext';
@@ -23,7 +24,13 @@ const Policies = () => {
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
     const columns = [
-        { header: 'Policy Name', key: 'name' },
+        { 
+            header: 'Policy Name', 
+            key: 'name',
+            render: (row) => (
+                <span title={row.name}>{truncateName(row.name)}</span>
+            )
+        },
         { 
             header: 'Authentication Key', 
             key: 'authKey',
@@ -32,7 +39,7 @@ const Policies = () => {
                 const isInactive = keyObj && keyObj.status !== 'active';
                 return (
                     <div className="key-cell">
-                        <span>{row.authKey}</span>
+                        <span title={row.authKey}>{truncateName(row.authKey)}</span>
                         {isInactive && (
                             <span className="inactive-warning" title={`Key is ${keyObj.status}`}>
                                 ⚠️ Inactive
@@ -50,7 +57,7 @@ const Policies = () => {
                 const isInactive = keyObj && keyObj.status !== 'active';
                 return (
                     <div className="key-cell">
-                        <span>{row.pqcKey || <span style={{ opacity: 0.5 }}>-</span>}</span>
+                        <span title={row.pqcKey}>{row.pqcKey ? truncateName(row.pqcKey) : <span style={{ opacity: 0.5 }}>-</span>}</span>
                         {isInactive && (
                             <span className="inactive-warning" title={`Key is ${keyObj.status}`}>
                                 ⚠️ Inactive

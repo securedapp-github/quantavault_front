@@ -11,6 +11,7 @@ import AuthenticationKeyDetailsModal from '../components/AuthenticationKeyDetail
 import ActionMenu from '../components/ActionMenu';
 import { formatDate } from '../utils/dateFormatter';
 import { formatFingerprint } from '../utils/fingerprintFormatter';
+import { truncateName } from '../utils/validation';
 import './AuthenticationKeys.css';
 
 import { useQuantum } from '../context/QuantumContext';
@@ -35,7 +36,13 @@ const AuthenticationKeys = () => {
     }, [location]);
 
     const columns = [
-        { header: 'Key Name', key: 'name' },
+        { 
+            header: 'Key Name', 
+            key: 'name',
+            render: (row) => (
+                <span title={row.name}>{truncateName(row.name)}</span>
+            )
+        },
         {
             header: 'Algorithm',
             key: 'algorithm',

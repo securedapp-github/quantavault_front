@@ -1,6 +1,7 @@
 import React from 'react';
 import './AuthenticationKeyDetailsModal.css';
 import { formatFingerprint } from '../utils/fingerprintFormatter';
+import { truncateName } from '../utils/validation';
 
 const AuthenticationKeyDetailsModal = ({ isOpen, onClose, keyData }) => {
     if (!isOpen || !keyData) return null;
@@ -26,7 +27,9 @@ const AuthenticationKeyDetailsModal = ({ isOpen, onClose, keyData }) => {
                         <div className="detail-row header-row">
                             <div className="detail-group">
                                 <label>Key Name</label>
-                                <div className="detail-value-large">{keyData.name}</div>
+                                <div className="detail-value-large" title={keyData.name}>
+                                    {truncateName(keyData.name)}
+                                </div>
                             </div>
                             <span className={`status-badge-large ${keyData.status?.toLowerCase() || 'active'}`}>
                                 {keyData.status || 'Active'}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import Input from './Input';
+import { validateName } from '../utils/validation';
 import './CreatePQCKeyModal.css';
 import './Modal.css';
 
@@ -89,6 +90,8 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
         (!isEditMode || formData.name.trim().toLowerCase() !== initialData.name.toLowerCase())
     );
 
+    const isNameInvalid = !validateName(formData.name);
+
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-center-container modal--medium create-pqc-modal" onClick={(e) => e.stopPropagation()}>
@@ -107,7 +110,11 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Production Signing Key"
                                 autoFocus
-                                error={isDuplicateName ? `An active key with the name "${formData.name}" already exists.` : null}
+                                maxLength={50}
+                                error={
+                                    isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 50 characters." :
+                                    isDuplicateName ? `An active key with the name "${formData.name}" already exists.` : null
+                                }
                             />
 
                             <div className="form-group">
@@ -212,7 +219,7 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
                     {step < 3 ? (
                         <Button
                             onClick={handleNext}
-                            disabled={step === 1 && (!formData.name || isDuplicateName)}
+                            disabled={step === 1 && (!formData.name || isDuplicateName || isNameInvalid)}
                         >
                             Next →
                         </Button>
