@@ -63,16 +63,24 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
         setIsCreating(true);
         setError(null);
         try {
-            let finalPublicKey = formData.publicKey;
-            if (formData.source === 'upload' && formData.algorithm === 'Hybrid') {
-                finalPublicKey = `${formData.publicKey1}\n\n${formData.publicKey2}`;
-            }
-
-            const result = await onCreate({
+            let payload = {
                 name: formData.name,
                 algorithm: formData.algorithm,
-                publicKey: formData.source === 'upload' ? finalPublicKey : null
-            });
+            };
+
+            if (formData.source === 'upload') {
+                if (formData.algorithm === 'Hybrid') {
+                    payload.publicKey = formData.publicKey2; // ECDSA (Classical)
+                    payload.publicKeyDsa = formData.publicKey1; // ML-DSA (PQC)
+                } else if (formData.algorithm === 'ML-DSA') {
+                    payload.publicKey = '';
+                    payload.publicKeyDsa = formData.publicKey;
+                } else {
+                    payload.publicKey = formData.publicKey;
+                }
+            }
+
+            const result = await onCreate(payload);
             
             setCreatedKey(result);
             setStep(4); // Move to Success Step
