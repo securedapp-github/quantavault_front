@@ -15,6 +15,8 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
         algorithm: 'RSA',
         source: 'upload', // 'upload' or 'generate'
         publicKey: '',
+        publicKey1: '', // For Hybrid ML-DSA component
+        publicKey2: '', // For Hybrid ECDSA component
         privateKey: '', // Only for generated
     });
     const [isCreating, setIsCreating] = useState(false);
@@ -25,13 +27,15 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
         if (isOpen) {
             setTimeout(() => {
                 setStep(1);
-                setFormData({
-                    name: '',
-                    algorithm: 'RSA',
-                    source: 'upload',
-                    publicKey: '',
-                    privateKey: '',
-                });
+                    setFormData({
+                        name: '',
+                        algorithm: 'RSA',
+                        source: 'upload',
+                        publicKey: '',
+                        publicKey1: '',
+                        publicKey2: '',
+                        privateKey: '',
+                    });
                 setCreatedKey(null);
                 setError(null);
                 setIsCreating(false);
@@ -59,10 +63,15 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
         setIsCreating(true);
         setError(null);
         try {
+            let finalPublicKey = formData.publicKey;
+            if (formData.source === 'upload' && formData.algorithm === 'Hybrid') {
+                finalPublicKey = `${formData.publicKey1}\n\n${formData.publicKey2}`;
+            }
+
             const result = await onCreate({
                 name: formData.name,
                 algorithm: formData.algorithm,
-                publicKey: formData.source === 'upload' ? formData.publicKey : null
+                publicKey: formData.source === 'upload' ? finalPublicKey : null
             });
             
             setCreatedKey(result);
@@ -190,13 +199,42 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
 
                             {formData.source === 'upload' ? (
                                 <div className="key-display-area">
-                                    <label className="form-label">Public Key</label>
-                                    <textarea
-                                        className="key-textarea"
-                                        placeholder="-----BEGIN PUBLIC KEY-----&#10;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A...&#10;-----END PUBLIC KEY-----"
-                                        value={formData.publicKey}
-                                        onChange={(e) => setFormData({ ...formData, publicKey: e.target.value })}
-                                    />
+                                    {formData.algorithm === 'Hybrid' ? (
+                                        <div className="hybrid-inputs">
+                                            <div className="form-group">
+                                                <label className="form-label">ML-DSA Public Key (Post-Quantum Component)</label>
+                                                <textarea
+                                                    className="key-textarea"
+                                                    placeholder="-----BEGIN PUBLIC KEY-----&#10;(Paste ML-DSA component here)&#10;-----END PUBLIC KEY-----"
+                                                    value={formData.publicKey1}
+                                                    onChange={(e) => setFormData({ ...formData, publicKey1: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="form-group" style={{ marginTop: '16px' }}>
+                                                <label className="form-label">ECDSA Public Key (Classical Component)</label>
+                                                <textarea
+                                                    className="key-textarea"
+                                                    placeholder="-----BEGIN PUBLIC KEY-----&#10;(Paste ECDSA component here)&#10;-----END PUBLIC KEY-----"
+                                                    value={formData.publicKey2}
+                                                    onChange={(e) => setFormData({ ...formData, publicKey2: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <label className="form-label">{formData.algorithm} Public Key</label>
+                                            <textarea
+                                                className="key-textarea"
+                                                placeholder={
+                                                    formData.algorithm === 'RSA' ? "-----BEGIN PUBLIC KEY-----\n(Paste RSA Public Key here)\n-----END PUBLIC KEY-----" :
+                                                    formData.algorithm === 'ECDSA' ? "-----BEGIN PUBLIC KEY-----\n(Paste ECDSA Public Key here)\n-----END PUBLIC KEY-----" :
+                                                    "-----BEGIN PUBLIC KEY-----\n(Paste ML-DSA Public Key here)\n-----END PUBLIC KEY-----"
+                                                }
+                                                value={formData.publicKey}
+                                                onChange={(e) => setFormData({ ...formData, publicKey: e.target.value })}
+                                            />
+                                        </>
+                                    )}
                                 </div>
                             ) : (
                                 <div className="key-display-area">
@@ -295,7 +333,11 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                             onClick={handleNext}
                             disabled={
                                 (step === 1 && (!formData.name || isDuplicateName || isNameInvalid)) ||
-                                (step === 2 && formData.source === 'upload' && !formData.publicKey)
+                                (step === 2 && formData.source === 'upload' && (
+                                    formData.algorithm === 'Hybrid' 
+                                        ? (!formData.publicKey1 || !formData.publicKey2)
+                                        : !formData.publicKey
+                                ))
                             }
                         >
                             Next
