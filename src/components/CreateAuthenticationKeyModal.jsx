@@ -213,7 +213,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                                                 <label className="form-label">ML-DSA Public Key (Post-Quantum Component)</label>
                                                 <textarea
                                                     className="key-textarea"
-                                                    placeholder="-----BEGIN PUBLIC KEY-----&#10;(Paste ML-DSA component here)&#10;-----END PUBLIC KEY-----"
+                                                    placeholder="04a1b2c3d4e5f6... (Paste Hexadecimal ML-DSA Public Key)"
                                                     value={formData.publicKey1}
                                                     onChange={(e) => setFormData({ ...formData, publicKey1: e.target.value })}
                                                 />
@@ -222,7 +222,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                                                 <label className="form-label">ECDSA Public Key (Classical Component)</label>
                                                 <textarea
                                                     className="key-textarea"
-                                                    placeholder="-----BEGIN PUBLIC KEY-----&#10;(Paste ECDSA component here)&#10;-----END PUBLIC KEY-----"
+                                                    placeholder="-----BEGIN PUBLIC KEY-----&#10;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A...&#10;-----END PUBLIC KEY-----"
                                                     value={formData.publicKey2}
                                                     onChange={(e) => setFormData({ ...formData, publicKey2: e.target.value })}
                                                 />
@@ -236,7 +236,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                                                 placeholder={
                                                     formData.algorithm === 'RSA' ? "-----BEGIN PUBLIC KEY-----\n(Paste RSA Public Key here)\n-----END PUBLIC KEY-----" :
                                                     formData.algorithm === 'ECDSA' ? "-----BEGIN PUBLIC KEY-----\n(Paste ECDSA Public Key here)\n-----END PUBLIC KEY-----" :
-                                                    "-----BEGIN PUBLIC KEY-----\n(Paste ML-DSA Public Key here)\n-----END PUBLIC KEY-----"
+                                                    "04a1b2c3d4e5f6... (Paste Hexadecimal ML-DSA Public Key)"
                                                 }
                                                 value={formData.publicKey}
                                                 onChange={(e) => setFormData({ ...formData, publicKey: e.target.value })}
