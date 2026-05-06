@@ -6,6 +6,7 @@ import Badge from '../components/Badge';
 import { useQuantum } from '../context/QuantumContext';
 import { STATUS, TABLE_LAYOUTS } from '../utils/constants';
 import { formatDate } from '../utils/dateFormatter';
+import { truncateName } from '../utils/validation';
 import './AuditLogs.css';
 
 const AuditLogs = () => {
@@ -101,12 +102,12 @@ const AuditLogs = () => {
         { 
             header: 'Authentication Key', 
             key: 'authKey',
-            render: (row) => <span>{row.authKey === '—' ? '-' : row.authKey}</span>
+            render: (row) => <span title={row.authKey}>{row.authKey === '—' ? '-' : truncateName(row.authKey)}</span>
         },
         { 
             header: 'PQC Key', 
             key: 'pqcKey',
-            render: (row) => <span>{row.pqcKey === '—' ? '-' : row.pqcKey}</span>
+            render: (row) => <span title={row.pqcKey}>{row.pqcKey === '—' ? '-' : truncateName(row.pqcKey)}</span>
         },
         { 
             header: 'Source IP', 
@@ -236,7 +237,7 @@ const AuditLogs = () => {
                                         style={{ width: '100%' }}
                                         onClick={() => setIsAuthKeyDropdownOpen(!isAuthKeyDropdownOpen)}
                                     >
-                                        <span className="filter-value">{filterAuthKey === 'All' ? 'All Authentication Keys' : filterAuthKey}</span>
+                                        <span className="filter-value">{filterAuthKey === 'All' ? 'All Authentication Keys' : truncateName(filterAuthKey)}</span>
                                         <span style={{ fontSize: '10px' }}>▼</span>
                                     </button>
                                     {isAuthKeyDropdownOpen && (
@@ -256,7 +257,7 @@ const AuditLogs = () => {
                                                         className={`dropdown-item ${filterAuthKey === name ? 'selected' : ''}`}
                                                         onClick={() => { setFilterAuthKey(name); setIsAuthKeyDropdownOpen(false); }}
                                                     >
-                                                        {name}
+                                                        {truncateName(name)}
                                                         {filterAuthKey === name && <Check size={14} className="check-icon" />}
                                                     </div>
                                                 ))}
@@ -275,7 +276,7 @@ const AuditLogs = () => {
                                         style={{ width: '100%' }}
                                         onClick={() => setIsPQCKeyDropdownOpen(!isPQCKeyDropdownOpen)}
                                     >
-                                        <span className="filter-value">{filterPQCKey === 'All' ? 'All PQC Keys' : filterPQCKey}</span>
+                                        <span className="filter-value">{filterPQCKey === 'All' ? 'All PQC Keys' : truncateName(filterPQCKey)}</span>
                                         <span style={{ fontSize: '10px' }}>▼</span>
                                     </button>
                                     {isPQCKeyDropdownOpen && (
@@ -295,7 +296,7 @@ const AuditLogs = () => {
                                                         className={`dropdown-item ${filterPQCKey === name ? 'selected' : ''}`}
                                                         onClick={() => { setFilterPQCKey(name); setIsPQCKeyDropdownOpen(false); }}
                                                     >
-                                                        {name}
+                                                        {truncateName(name)}
                                                         {filterPQCKey === name && <Check size={14} className="check-icon" />}
                                                     </div>
                                                 ))}

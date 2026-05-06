@@ -21,13 +21,21 @@ const handleResponse = async (response) => {
     let data;
     try {
         data = await response.json();
-    } catch {
+    } catch (e) {
+        // If it's a 204 No Content, an empty object is fine
+        if (response.status === 204) return {};
+        
+        // If not OK, throw standard error
         if (!response.ok) {
             const error = new Error(`Server error (${response.status})`);
             error.status = response.status;
             throw error;
         }
-        return {};
+        
+        // If OK but not JSON (and not 204), the response body is malformed/unexpected
+        const error = new Error(`Invalid response format from server (${response.status})`);
+        error.status = response.status;
+        throw error;
     }
     if (!response.ok) {
         // Robust error extraction: Handle both simplified string format and legacy nested object format

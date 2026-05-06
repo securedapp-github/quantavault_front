@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import Input from './Input';
-import { validateName } from '../utils/validation';
+import { validateName, truncateName } from '../utils/validation';
 import './CreatePQCKeyModal.css';
 import './Modal.css';
 
@@ -182,7 +182,7 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
                             <div className="summary-card">
                                 <div className="summary-row">
                                     <span className="summary-label">Key Name</span>
-                                    <span className="summary-value">{formData.name}</span>
+                                    <span className="summary-value" title={formData.name}>{truncateName(formData.name)}</span>
                                 </div>
                                 <div className="summary-row">
                                     <span className="summary-label">Algorithm</span>

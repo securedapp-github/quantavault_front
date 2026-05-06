@@ -43,13 +43,37 @@ export const QuantumProvider = ({ children }) => {
         return !!localStorage.getItem('jwt_token');
     });
 
-    // Data State
-    const [pqcKeys, setPqcKeys] = useState([]);
-    const [authKeys, setAuthKeys] = useState([]);
-    const [policies, setPolicies] = useState([]);
-    const [auditLogs, setAuditLogs] = useState([]);
-    const [dashboardStats, setDashboardStats] = useState(null);
+    // Data State (Initialized from localStorage if available)
+    const [pqcKeys, setPqcKeys] = useState(() => {
+        const saved = localStorage.getItem('cache_pqc_keys');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [authKeys, setAuthKeys] = useState(() => {
+        const saved = localStorage.getItem('cache_auth_keys');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [policies, setPolicies] = useState(() => {
+        const saved = localStorage.getItem('cache_policies');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [auditLogs, setAuditLogs] = useState(() => {
+        const saved = localStorage.getItem('cache_audit_logs');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [dashboardStats, setDashboardStats] = useState(() => {
+        const saved = localStorage.getItem('cache_dashboard_stats');
+        return saved ? JSON.parse(saved) : null;
+    });
     const [loading, setLoading] = useState(false);
+
+    // Sync state to localStorage on changes
+    useEffect(() => { localStorage.setItem('cache_pqc_keys', JSON.stringify(pqcKeys)); }, [pqcKeys]);
+    useEffect(() => { localStorage.setItem('cache_auth_keys', JSON.stringify(authKeys)); }, [authKeys]);
+    useEffect(() => { localStorage.setItem('cache_policies', JSON.stringify(policies)); }, [policies]);
+    useEffect(() => { localStorage.setItem('cache_audit_logs', JSON.stringify(auditLogs)); }, [auditLogs]);
+    useEffect(() => { 
+        if (dashboardStats) localStorage.setItem('cache_dashboard_stats', JSON.stringify(dashboardStats)); 
+    }, [dashboardStats]);
 
     /**
      * Resets all application state and clears local storage.
@@ -70,6 +94,12 @@ export const QuantumProvider = ({ children }) => {
         localStorage.removeItem('jwt_token');
         localStorage.removeItem('user_profile');
         localStorage.removeItem('lastActive');
+        // Clear caches
+        localStorage.removeItem('cache_pqc_keys');
+        localStorage.removeItem('cache_auth_keys');
+        localStorage.removeItem('cache_policies');
+        localStorage.removeItem('cache_audit_logs');
+        localStorage.removeItem('cache_dashboard_stats');
     }, []);
 
     // Load all data from backend when authenticated
@@ -94,6 +124,8 @@ export const QuantumProvider = ({ children }) => {
             // If token is expired/invalid, logout
             if (err.status === 401) {
                 performLogout();
+            } else {
+                toast.error('Failed to sync latest data. Showing cached version.');
             }
         } finally {
             setLoading(false);

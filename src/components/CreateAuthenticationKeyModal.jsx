@@ -4,7 +4,7 @@ import Button from './Button';
 import Input from './Input';
 import { getDeviceFingerprint } from '../utils/deviceFingerprint';
 import { formatFingerprint } from '../utils/fingerprintFormatter';
-import { validateName } from '../utils/validation';
+import { validateName, truncateName } from '../utils/validation';
 import './CreateAuthenticationKeyModal.css';
 import './Modal.css';
 
@@ -215,7 +215,7 @@ const CreateAuthenticationKeyModal = ({ isOpen, onClose, onCreate, existingKeys 
                             <div className="summary">
                                 <div className="summary-item">
                                     <span className="summary-label">Key Name:</span>
-                                    <span className="summary-value">{formData.name}</span>
+                                    <span className="summary-value" title={formData.name}>{truncateName(formData.name)}</span>
                                 </div>
                                 <div className="summary-item">
                                     <span className="summary-label">Algorithm:</span>

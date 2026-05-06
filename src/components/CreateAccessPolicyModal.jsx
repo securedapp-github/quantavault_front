@@ -3,7 +3,7 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useQuantum } from '../context/QuantumContext';
 import Button from './Button';
 import Input from './Input';
-import { validateName } from '../utils/validation';
+import { validateName, truncateName } from '../utils/validation';
 import './CreateAccessPolicyModal.css';
 import './Modal.css';
 
@@ -172,7 +172,7 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
                                         {/* Show currently selected key even if inactive during edit, or all active ones */}
                                         {authKeys.filter(k => k.status === 'active' || k.name === formData.authKey).map(key => (
                                             <option key={key.id} value={key.name}>
-                                                {key.name} ({key.algorithm}) {key.status !== 'active' ? `[${key.status.toUpperCase()}]` : ''}
+                                                {truncateName(key.name)} ({key.algorithm}) {key.status !== 'active' ? `[${key.status.toUpperCase()}]` : ''}
                                             </option>
                                         ))}
                                         {authKeys.length === 0 && <option value="" disabled>No keys available</option>}
@@ -191,7 +191,7 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
                                         <option value="" disabled>Select PQC key</option>
                                         {pqcKeys.filter(k => k.status === 'active' || k.name === formData.pqcKey).map(key => (
                                             <option key={key.id} value={key.name}>
-                                                {key.name} ({key.algorithm}) {key.status !== 'active' ? `[${key.status.toUpperCase()}]` : ''}
+                                                {truncateName(key.name)} ({key.algorithm}) {key.status !== 'active' ? `[${key.status.toUpperCase()}]` : ''}
                                             </option>
                                         ))}
                                         {pqcKeys.length === 0 && <option value="" disabled>No keys available</option>}
@@ -278,15 +278,15 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
                             <div className="summary">
                                 <div className="summary-item">
                                     <span className="summary-label">Policy Name:</span>
-                                    <span className="summary-value">{formData.name}</span>
+                                    <span className="summary-value" title={formData.name}>{truncateName(formData.name)}</span>
                                 </div>
                                 <div className="summary-item">
                                     <span className="summary-label">Authentication Key:</span>
-                                    <span className="summary-value">{formData.authKey}</span>
+                                    <span className="summary-value" title={formData.authKey}>{truncateName(formData.authKey)}</span>
                                 </div>
                                 <div className="summary-item">
                                     <span className="summary-label">PQC Key:</span>
-                                    <span className="summary-value">{formData.pqcKey}</span>
+                                    <span className="summary-value" title={formData.pqcKey}>{truncateName(formData.pqcKey)}</span>
                                 </div>
                                 <div className="summary-item">
                                     <span className="summary-label">Operations:</span>
