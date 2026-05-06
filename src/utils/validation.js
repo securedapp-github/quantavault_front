@@ -15,13 +15,23 @@ export const validateName = (name) => {
 };
 
 /**
- * Truncates a name for display if it exceeds 50 characters.
+ * Truncates a name for display based on screen width.
+ * Desktop: 50 characters
+ * Mobile (<= 768px): 20 characters
  * 
  * @param {string} name - The name to truncate
  * @returns {string} - Truncated name with "..." if needed
  */
 export const truncateName = (name) => {
     if (!name) return '';
-    if (name.length <= 50) return name;
-    return name.substring(0, 46) + '...';
+    
+    // Determine limit based on screen width
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    const limit = isMobile ? 20 : 50;
+
+    if (name.length <= limit) return name;
+    
+    // Truncate and add ellipsis. 
+    // We use limit - 3 to ensure the total length (including ...) matches the limit.
+    return name.substring(0, limit - 3) + '...';
 };
