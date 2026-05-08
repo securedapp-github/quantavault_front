@@ -157,8 +157,8 @@ const CreateAccessPolicyModal = ({ isOpen, onClose, onSave, editData = null }) =
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Production API Access"
                                 autoFocus
-                                maxLength={50}
-                                error={isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 50 characters." : null}
+                                maxLength={30}
+                                error={isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 30 characters." : null}
                             />
 
                             <div className="form-group" style={{ marginTop: '24px' }}>

@@ -110,9 +110,9 @@ const CreatePQCKeyModal = ({ isOpen, onClose, onCreate, initialData = null, exis
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Production Signing Key"
                                 autoFocus
-                                maxLength={50}
+                                maxLength={30}
                                 error={
-                                    isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 50 characters." :
+                                    isNameInvalid ? "Name must be alphanumeric with only '_' or '-' and under 30 characters." :
                                     isDuplicateName ? `An active key with the name "${formData.name}" already exists.` : null
                                 }
                             />
