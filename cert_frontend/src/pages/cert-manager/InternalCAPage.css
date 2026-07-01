@@ -1,0 +1,249 @@
+/* ── Tab Bar ─────────────────────────────────────────────────────────────── */
+.ica-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 4px;
+    margin-bottom: 24px;
+    width: fit-content;
+}
+
+.ica-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border-radius: var(--radius-full);
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.ica-tab:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-hover);
+}
+
+.ica-tab--active {
+    background: var(--nav-item-active-bg);
+    color: var(--nav-item-active-text);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ── Section Header ──────────────────────────────────────────────────────── */
+.ica-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.ica-section-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 4px 0;
+}
+
+.ica-section-sub {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+/* ── Form Footer ─────────────────────────────────────────────────────────── */
+.ica-form-footer {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 8px;
+}
+
+/* ── Result Area ─────────────────────────────────────────────────────────── */
+.ica-result {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.ica-result-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-success);
+}
+
+.ica-chain-note {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    margin: 8px 0;
+    padding: 6px 10px;
+    background: rgba(0, 208, 132, 0.06);
+    border: 1px solid rgba(0, 208, 132, 0.15);
+    border-radius: var(--radius-sm);
+}
+
+.ica-result-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+/* ── Info Card ───────────────────────────────────────────────────────────── */
+.ica-info-card {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: rgba(var(--color-primary-rgb), 0.04);
+    border: 1px solid rgba(var(--color-primary-rgb), 0.12);
+    border-radius: var(--radius-lg);
+}
+
+.ica-info-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Steps ───────────────────────────────────────────────────────────────── */
+.ica-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ica-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.ica-step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(var(--color-primary-rgb), 0.12);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.ica-step-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.ica-step-desc {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+/* ── Hierarchy Visual ────────────────────────────────────────────────────── */
+.ica-hierarchy-visual {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.ica-hv-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid;
+    flex-shrink: 0;
+}
+
+.ica-hv-node--root {
+    border-color: rgba(168, 85, 247, 0.35);
+    background: rgba(168, 85, 247, 0.06);
+    color: #a855f7;
+}
+
+.ica-hv-node--ica {
+    border-color: rgba(0, 168, 255, 0.35);
+    background: rgba(0, 168, 255, 0.06);
+    color: var(--color-primary);
+}
+
+.ica-hv-node--leaf {
+    border-color: rgba(0, 208, 132, 0.35);
+    background: rgba(0, 208, 132, 0.06);
+    color: var(--color-success);
+}
+
+.ica-hv-node-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.ica-hv-node-sub {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    margin-top: 1px;
+}
+
+.ica-hv-connector {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .ica-tabs {
+        width: 100%;
+        border-radius: var(--radius-lg);
+    }
+    .ica-tab {
+        flex: 1;
+        justify-content: center;
+    }
+    .ica-hierarchy-visual {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .ica-hv-connector {
+        margin-left: 14px;
+        transform: rotate(90deg);
+    }
+}
