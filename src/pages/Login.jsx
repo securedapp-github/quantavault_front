@@ -85,8 +85,6 @@ const Login = () => {
     }
   };
 
-
-
   // If 2FA verification is pending, show the verification screen
   if (pending2FA) {
     return <TwoFactorVerify />;
