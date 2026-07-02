@@ -1,9 +1,8 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard,
     Key,
-
     Shield,
     FileText,
     Activity,
@@ -13,7 +12,11 @@ import {
     LogOut,
     ChevronUp,
     Sun,
-    Moon
+    Moon,
+    Award,
+    FileBadge,
+    ShieldCheck,
+    ScrollText
 } from 'lucide-react';
 import { useQuantum } from '../context/QuantumContext';
 import { useTheme } from '../context/ThemeContext';
@@ -29,6 +32,26 @@ const Sidebar = ({ isOpen, onClose }) => {
         { path: '/billing', label: 'Billing', icon: <CreditCard size={20} /> },
         { path: '/settings', label: 'Settings', icon: <Settings size={20} /> },
     ];
+
+    // ── NEW: Certificate Manager sub-items ──
+    const certNavItems = [
+        { path: '/cert-manager', label: 'Overview', icon: <Award size={20} />, end: true },
+        { path: '/cert-manager/certificates', label: 'Certificates', icon: <FileBadge size={20} />, end: false },
+        { path: '/cert-manager/keys', label: 'Cert Keys', icon: <ShieldCheck size={20} />, end: false },
+        { path: '/cert-manager/csr', label: 'Generate CSR', icon: <ScrollText size={20} />, end: false },
+        { path: '/cert-manager/internal-ca', label: 'Internal CA', icon: <Shield size={20} />, end: false },
+        { path: '/cert-manager/audit', label: 'Cert Audit Logs', icon: <Activity size={20} />, end: false },
+    ];
+
+    const location = useLocation();
+    const isCertActive = location.pathname.startsWith('/cert-manager');
+    const [certOpen, setCertOpen] = useState(isCertActive);
+
+    useEffect(() => {
+        if (isCertActive) {
+            setCertOpen(true);
+        }
+    }, [isCertActive]);
 
     // Use context for logout and user info
     const { logout, user } = useQuantum();
@@ -89,6 +112,43 @@ const Sidebar = ({ isOpen, onClose }) => {
                             )}
                         </NavLink>
                     ))}
+                    {/* Collapsible Certificate Manager Group */}
+                    <div className="nav-group">
+                        <button
+                            type="button"
+                            className={`nav-item nav-item-parent ${isCertActive ? 'active' : ''} ${certOpen ? 'expanded' : ''}`}
+                            onClick={() => setCertOpen(!certOpen)}
+                        >
+                            <span className="nav-icon"><Award size={20} /></span>
+                            <span className="nav-label">Certificate Manager</span>
+                            <ChevronRight
+                                size={16}
+                                className={`nav-expand-chevron ${certOpen ? 'open' : ''}`}
+                            />
+                        </button>
+
+                        <div className={`nav-subitems ${certOpen ? 'open' : ''}`}>
+                            {certNavItems.map((item) => (
+                                <NavLink
+                                    key={item.path}
+                                    to={item.path}
+                                    end={item.end}
+                                    className={({ isActive }) =>
+                                        `nav-subitem ${isActive ? 'active' : ''}`
+                                    }
+                                    onClick={() => window.innerWidth < 1024 && onClose()}
+                                >
+                                    {({ isActive }) => (
+                                        <>
+                                            <span className="nav-icon">{item.icon}</span>
+                                            <span className="nav-label">{item.label}</span>
+                                            {isActive && <ChevronRight size={14} className="nav-chevron-sub" />}
+                                        </>
+                                    )}
+                                </NavLink>
+                            ))}
+                        </div>
+                    </div>
                 </nav>
 
                 {/* User Info Footer */}

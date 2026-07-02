@@ -4,19 +4,19 @@ import {
     Copy, GitBranch, ChevronRight, Zap
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import PageHeader from '../../components/PageHeader';
-import Card from '../../components/Card';
-import Button from '../../components/Button';
-import { useCert } from '../../context/CertContext';
+import PageHeader from '../components/PageHeader';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import { useCert } from '../context/cert.CertContext';
 import {
     validateDisplayName,
     validateSubjectDN,
     validateICAValidity,
     validateLeafValidity,
     validateCsrPem
-} from '../../utils/validation';
-import '../cert-shared.css';
-import './InternalCAPage.css';
+} from '../utils/cert.validation';
+import '../styles/cert.shared.css';
+import './cert.InternalCAPage.css';
 
 // ── Spinner ───────────────────────────────────────────────────────────────────
 const Spinner = () => (

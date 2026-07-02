@@ -1,8 +1,0 @@
-.card {
-    background-color: var(--color-bg-secondary);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    /* Subtle border for definition */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}

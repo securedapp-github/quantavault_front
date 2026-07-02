@@ -4,16 +4,16 @@ import {
     XCircle, Search, Eye, Link2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import PageHeader from '../../components/PageHeader';
-import Badge from '../../components/Badge';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
-import Table from '../../components/Table';
-import EmptyState from '../../components/EmptyState';
-import ActionMenu from '../../components/ActionMenu';
-import { useCert } from '../../context/CertContext';
-import { validateDisplayName, validateCertPem } from '../../utils/validation';
-import '../cert-shared.css';
+import PageHeader from '../components/PageHeader';
+import Badge from '../components/Badge';
+import Button from '../components/Button';
+import Modal from '../components/Modal';
+import Table from '../components/Table';
+import EmptyState from '../components/EmptyState';
+import ActionMenu from '../components/ActionMenu';
+import { useCert } from '../context/cert.CertContext';
+import { validateDisplayName, validateCertPem } from '../utils/cert.validation';
+import '../styles/cert.shared.css';
 
 const statusBadge = (status) => {
     const map = {
@@ -319,13 +319,21 @@ const CertificatesPage = () => {
 
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
+    const [typeFilter, setTypeFilter] = useState('');
+    const [sourceFilter, setSourceFilter] = useState('');
     const [importOpen, setImportOpen] = useState(false);
     const [selectedCert, setSelectedCert] = useState(null);
 
     const filtered = certificates.filter(c => {
         const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || (c.subject || '').toLowerCase().includes(search.toLowerCase());
         const matchStatus = !statusFilter || c.status === statusFilter;
-        return matchSearch && matchStatus;
+        const matchType = !typeFilter || c.certType === typeFilter;
+        
+        let matchSource = true;
+        if (sourceFilter === 'internal') matchSource = c.issuedInternally === true;
+        else if (sourceFilter === 'external') matchSource = c.issuedInternally === false;
+
+        return matchSearch && matchStatus && matchType && matchSource;
     });
 
     const handleSelectCert = async (certRow) => {
@@ -380,8 +388,19 @@ const CertificatesPage = () => {
             key: 'name',
             render: (row) => (
                 <div>
-                    <div style={{ fontWeight: 500 }}>{row.name}</div>
-                    <div style={{ fontSize: 11, color: 'var(--color-text-muted)', fontFamily: 'monospace', marginTop: 2 }}>{row.subject}</div>
+                    <div style={{ fontWeight: 500, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
+                        <span>{row.name}</span>
+                        {row.certType === 'ROOT' && <Badge variant="error">Root CA</Badge>}
+                        {row.certType === 'INTERMEDIATE' && <Badge variant="warning">Intermediate CA</Badge>}
+                        {row.certType === 'LEAF' && <Badge variant="info">Leaf</Badge>}
+                        
+                        {row.issuedInternally ? (
+                            <Badge variant="success">Internal</Badge>
+                        ) : (
+                            <Badge variant="default">External</Badge>
+                        )}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--color-text-muted)', fontFamily: 'monospace', marginTop: 4 }}>{row.subject}</div>
                 </div>
             )
         },
@@ -488,6 +507,25 @@ const CertificatesPage = () => {
                         <option value="PENDING">Pending</option>
                         <option value="EXPIRED">Expired</option>
                         <option value="REVOKED">Revoked</option>
+                    </select>
+
+                    <select
+                        style={{ background: 'var(--input-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '8px 12px', color: 'var(--color-text-primary)', fontSize: 13 }}
+                        value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
+                    >
+                        <option value="">All Types</option>
+                        <option value="ROOT">Root CA</option>
+                        <option value="INTERMEDIATE">Intermediate CA</option>
+                        <option value="LEAF">Leaf Certificate</option>
+                    </select>
+
+                    <select
+                        style={{ background: 'var(--input-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '8px 12px', color: 'var(--color-text-primary)', fontSize: 13 }}
+                        value={sourceFilter} onChange={e => setSourceFilter(e.target.value)}
+                    >
+                        <option value="">All Issuers</option>
+                        <option value="internal">Issued Internally</option>
+                        <option value="external">Issued Externally</option>
                     </select>
                 </div>
 

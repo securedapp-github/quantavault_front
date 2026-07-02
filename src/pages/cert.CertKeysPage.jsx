@@ -4,25 +4,25 @@ import {
     Crown, Network, Shield, Plus, Key
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import PageHeader from '../../components/PageHeader';
-import Badge from '../../components/Badge';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
-import Table from '../../components/Table';
-import EmptyState from '../../components/EmptyState';
-import ActionMenu from '../../components/ActionMenu';
+import PageHeader from '../components/PageHeader';
+import Badge from '../components/Badge';
+import Button from '../components/Button';
+import Modal from '../components/Modal';
+import Table from '../components/Table';
+import EmptyState from '../components/EmptyState';
+import ActionMenu from '../components/ActionMenu';
 
-import { useCert } from '../../context/CertContext';
-import { formatDate } from '../../utils/dateFormatter';
+import { useCert } from '../context/cert.CertContext';
+import { formatDate } from '../utils/dateFormatter';
 import {
     truncateName,
     validateKeyName,
     validateDisplayName,
     validateSubjectDN,
     validateICAValidity
-} from '../../utils/validation';
-import './CertKeysPage.css';
-import '../cert-shared.css';
+} from '../utils/cert.validation';
+import './cert.CertKeysPage.css';
+import '../styles/cert.shared.css';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 

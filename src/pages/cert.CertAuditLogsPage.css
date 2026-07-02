@@ -241,9 +241,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
     min-width: 140px;
     justify-content: space-between;
+    transition: all 0.2s;
 }
 
 .dropdown-toggle:hover,

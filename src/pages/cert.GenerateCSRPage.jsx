@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { ScrollText, Copy, Check, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
-import PageHeader from '../../components/PageHeader';
-import Card from '../../components/Card';
-import Button from '../../components/Button';
-import { useCert } from '../../context/CertContext';
-import { validateSubjectDN, validateSANs, validateKeyUsages, validateEKUs } from '../../utils/validation';
-import '../cert-shared.css';
+import PageHeader from '../components/PageHeader';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import { useCert } from '../context/cert.CertContext';
+import { validateSubjectDN, validateSANs, validateKeyUsages, validateEKUs } from '../utils/cert.validation';
+import '../styles/cert.shared.css';
 
 const GenerateCSRPage = () => {
     const { keys, generateCSR } = useCert();
@@ -24,7 +24,7 @@ const GenerateCSRPage = () => {
 
     const handleFormChange = (field, value) => {
         setForm(prev => ({ ...prev, [field]: value }));
-        
+
         let err = null;
         if (field === 'keyId') err = value ? null : 'Key selection is required';
         if (field === 'subjectDN') err = validateSubjectDN(value);
@@ -80,8 +80,10 @@ const GenerateCSRPage = () => {
         toast.success('Form cleared');
     };
 
-    // Filter to active keys only
-    const activeKeys = keys.filter(k => k.status === 'active' || k.status === 'ACTIVE');
+    // Filter to active keys only, excluding ROOT CA keys (only INTERMEDIATE and NONE/leaf can generate CSR)
+    const activeKeys = keys.filter(
+        k => (k.status === 'active' || k.status === 'ACTIVE') && k.caType !== 'ROOT'
+    );
 
     return (
         <div className="page">
@@ -105,9 +107,13 @@ const GenerateCSRPage = () => {
                                 <option key={k.id} value={k.id}>{k.name} ({k.algorithm} {k.parameters || 'P-256'})</option>
                             ))}
                         </select>
-                        {errors.keyId ? (
-                            <p className="form-error-msg">{errors.keyId}</p>
-                        ) : (
+                        {errors.keyId && <p className="form-error-msg">{errors.keyId}</p>}
+                        {activeKeys.length === 0 && (
+                            <p className="form-hint" style={{ color: 'var(--color-warning)', marginTop: 8 }}>
+                                ⚠ No active signing keys found. Go to <strong>Cert Keys</strong> and create a key or issue an Intermediate CA first.
+                            </p>
+                        )}
+                        {activeKeys.length > 0 && !errors.keyId && (
                             <p className="form-hint">The private key stays in the HSM. Only the public key is embedded in the CSR.</p>
                         )}
                     </div>

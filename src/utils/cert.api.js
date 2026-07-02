@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:5001/api/cert';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = `${API_URL}/cert`;
 
 const getToken = () => localStorage.getItem('jwt_token');
 
@@ -65,6 +66,13 @@ export const api = {
             method: 'POST',
             headers: headers(),
             body: JSON.stringify({ name, subjectDN, validityDays: parseInt(validityDays) })
+        }).then(handleResponse),
+
+    setupRootCA: ({ commonName, organizationName, country }) =>
+        fetch(`${API_BASE_URL}/keys/setup-root-ca`, {
+            method: 'POST',
+            headers: headers(),
+            body: JSON.stringify({ commonName, organizationName, country })
         }).then(handleResponse),
 
     // ---- Certificates ----

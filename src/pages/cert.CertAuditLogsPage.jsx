@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { Filter, Check, X, Activity, FileText } from 'lucide-react';
-import PageHeader from '../../components/PageHeader';
-import Table from '../../components/Table';
-import { STATUS, TABLE_LAYOUTS } from '../../utils/constants';
-import { formatDate } from '../../utils/dateFormatter';
-import { truncateName } from '../../utils/validation';
-import { useCert } from '../../context/CertContext';
-import './CertAuditLogsPage.css';
-import '../cert-shared.css';
+import PageHeader from '../components/PageHeader';
+import Table from '../components/Table';
+import { STATUS, TABLE_LAYOUTS } from '../utils/constants';
+import { formatDate } from '../utils/dateFormatter';
+import { truncateName } from '../utils/cert.validation';
+import { useCert } from '../context/cert.CertContext';
+import './cert.CertAuditLogsPage.css';
+import '../styles/cert.shared.css';
 
 const CertAuditLogsPage = () => {
     const { auditLogs, loading } = useCert();
@@ -107,12 +107,24 @@ const CertAuditLogsPage = () => {
                 if (!row.details) return <span style={{ color: 'var(--color-text-muted)' }}>-</span>;
                 try {
                     const parsed = JSON.parse(row.details);
-                    const formatted = Object.entries(parsed)
-                        .map(([k, v]) => `${k}: ${v}`)
-                        .join(' · ');
-                    return <span title={formatted}>{truncateMid(formatted, 45)}</span>;
+                    // Generate a friendly summary
+                    let summary = '';
+                    if (row.action === 'CSR_GENERATED') {
+                        summary = `Subject: ${parsed.subjectDN || '—'}`;
+                    } else if (row.action === 'LEAF_CERT_ISSUED') {
+                        summary = `ICA Cert ID: ${parsed.icaCertId || '—'} · Key: ${parsed.issuingKeyId || '—'}`;
+                    } else if (row.action === 'INTERMEDIATE_CA_ISSUED') {
+                        summary = `Subject: ${parsed.subjectDN || '—'} · Root Key: ${parsed.rootKeyId || '—'}`;
+                    } else if (row.action === 'ROOT_CA_BOOTSTRAPPED') {
+                        summary = `Subject: ${parsed.subjectDN || '—'}`;
+                    } else {
+                        summary = Object.entries(parsed)
+                            .map(([k, v]) => `${k}: ${v}`)
+                            .join(' · ');
+                    }
+                    return <span title={summary} style={{ fontSize: '13px' }}>{truncateMid(summary, 50)}</span>;
                 } catch {
-                    return <span title={row.details}>{truncateMid(row.details, 45)}</span>;
+                    return <span title={row.details} style={{ fontSize: '13px' }}>{truncateMid(row.details, 50)}</span>;
                 }
             }
         },

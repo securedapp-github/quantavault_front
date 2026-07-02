@@ -3,13 +3,13 @@ import {
     Award, FileBadge, ShieldCheck, ArrowRight, Clock, XCircle,
     Crown, Network, Key
 } from 'lucide-react';
-import PageHeader from '../../components/PageHeader';
-import Card from '../../components/Card';
-import Badge from '../../components/Badge';
-import Button from '../../components/Button';
-import { useCert } from '../../context/CertContext';
-import './CertManagerOverview.css';
-import '../cert-shared.css';
+import PageHeader from '../components/PageHeader';
+import Card from '../components/Card';
+import Badge from '../components/Badge';
+import Button from '../components/Button';
+import { useCert } from '../context/cert.CertContext';
+import './cert.CertManagerOverview.css';
+import '../styles/cert.shared.css';
 
 const statusBadge = (status) => {
     const s = status.toLowerCase();
@@ -283,7 +283,7 @@ const CertManagerOverview = () => {
                             </Card>
                         </div>
 
-                        {/* Developer Tier Banner */}
+                        {/* Developer Banner */}
                         <section className="section upgrade-section" style={{ marginTop: 40 }}>
                             <div className="developer-tier-card">
                                 <h3 className="tier-title">PKI Developer Tier (Free)</h3>

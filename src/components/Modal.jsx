@@ -1,7 +1,7 @@
 import React from 'react';
 import './Modal.css';
 
-const Modal = ({ isOpen, onClose, title, children, size = 'medium' }) => {
+const Modal = ({ isOpen, onClose, title, children, footer, size = 'medium' }) => {
     if (!isOpen) return null;
 
     return (
@@ -17,6 +17,11 @@ const Modal = ({ isOpen, onClose, title, children, size = 'medium' }) => {
                 <div className="modal-content">
                     {children}
                 </div>
+                {footer && (
+                    <div className="modal-footer">
+                        {footer}
+                    </div>
+                )}
             </div>
         </div>
     );
