@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import Sidebar from './components/Sidebar';
@@ -15,6 +15,14 @@ import { QuantumProvider, useQuantum } from './context/QuantumContext';
 import { useTheme } from './context/ThemeContext';
 import GlobalLoader from './components/GlobalLoader';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { CertProvider, useCert } from './context/cert.CertContext';
+import CertManagerOverview from './pages/cert.CertManagerOverview';
+import CertificatesPage from './pages/cert.CertificatesPage';
+import CertKeysPage from './pages/cert.CertKeysPage';
+import GenerateCSRPage from './pages/cert.GenerateCSRPage';
+import InternalCAPage from './pages/cert.InternalCAPage';
+import CertAuditLogsPage from './pages/cert.CertAuditLogsPage';
+import SetupRootCAModal from './components/cert.SetupRootCAModal';
 import './App.css';
 
 const RequireAuth = ({ children }) => {
@@ -31,6 +39,32 @@ const RedirectIfAuth = ({ children }) => {
     return <Navigate to="/dashboard" replace />;
   }
   return children;
+};
+
+const CertLayout = () => {
+  const { keys, loading } = useCert();
+  const location = useLocation();
+  const hasRootCA = keys.some(k => k.caType === 'ROOT');
+
+  if (loading) {
+    return (
+      <div style={{ padding: 48, textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+        Loading Certificate Manager...
+      </div>
+    );
+  }
+
+  // Block access to CSR and Issuing CA pages if Root CA is not set up
+  if (!hasRootCA && (location.pathname.includes('/csr') || location.pathname.includes('/internal-ca'))) {
+    return <Navigate to="/cert-manager" replace />;
+  }
+
+  return (
+    <>
+      <Outlet />
+      {!hasRootCA && <SetupRootCAModal />}
+    </>
+  );
 };
 
 const MainLayout = () => {
@@ -74,29 +108,41 @@ const MainLayout = () => {
 function App() {
   return (
     <QuantumProvider>
-      <GlobalLoader />
-      <Toaster position="top-center" />
-      <Router>
-        <Routes>
-          <Route path="/login" element={
-            <RedirectIfAuth>
-              <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID"}>
-                <Login />
-              </GoogleOAuthProvider>
-            </RedirectIfAuth>
-          } />
-          <Route element={<MainLayout />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="pqc-keys" element={<PQCKeys />} />
-            <Route path="authentication-keys" element={<AuthenticationKeys />} />
-            <Route path="policies" element={<Policies />} />
-            <Route path="audit-logs" element={<AuditLogs />} />
-            <Route path="billing" element={<Billing />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-        </Routes>
-      </Router>
+      <CertProvider>
+        <GlobalLoader />
+        <Toaster position="top-center" />
+        <Router>
+          <Routes>
+            <Route path="/login" element={
+              <RedirectIfAuth>
+                <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID"}>
+                  <Login />
+                </GoogleOAuthProvider>
+              </RedirectIfAuth>
+            } />
+            <Route element={<MainLayout />}>
+              <Route index element={<Navigate to="/dashboard" replace />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="pqc-keys" element={<PQCKeys />} />
+              <Route path="authentication-keys" element={<AuthenticationKeys />} />
+              <Route path="policies" element={<Policies />} />
+              <Route path="audit-logs" element={<AuditLogs />} />
+              <Route path="billing" element={<Billing />} />
+              <Route path="settings" element={<Settings />} />
+
+              {/* ── Certificate Manager routes ── */}
+              <Route element={<CertLayout />}>
+                <Route path="cert-manager" element={<CertManagerOverview />} />
+                <Route path="cert-manager/certificates" element={<CertificatesPage />} />
+                <Route path="cert-manager/keys" element={<CertKeysPage />} />
+                <Route path="cert-manager/csr" element={<GenerateCSRPage />} />
+                <Route path="cert-manager/internal-ca" element={<InternalCAPage />} />
+                <Route path="cert-manager/audit" element={<CertAuditLogsPage />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </CertProvider>
     </QuantumProvider>
   );
 }

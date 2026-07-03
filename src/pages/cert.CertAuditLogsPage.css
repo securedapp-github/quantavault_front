@@ -1,0 +1,309 @@
+.audit-logs-page .page-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+.stat-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.stat-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1;
+}
+
+/* Status Indicators */
+.stat-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+}
+
+.stat-indicator.success {
+    color: var(--color-success);
+}
+
+.stat-indicator.danger {
+    color: var(--color-danger);
+}
+
+/* Trend Line Mock */
+.trend-line {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    width: 60px;
+    height: 24px;
+    opacity: 0.5;
+}
+
+/* Filters Section */
+.filters-section {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+}
+
+.filters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Safari support */
+    user-select: none;
+}
+
+/* Margin bottom only when open, handled by conditional rendering but spacing might need adjustment */
+.filters-section.open .filters-header {
+    margin-bottom: 20px;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.filter-select {
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 50px;
+    padding: 10px 12px;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-value {
+    color: var(--color-text-primary);
+}
+
+/* Recent Activity */
+.recent-activity-section {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    /* Ensure it doesn't expand beyond parent in flex context */
+    max-width: 100%;
+    min-width: 0;
+}
+
+.recent-activity-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+/* Ensure table container inside scrolls */
+.recent-activity-section .table-container {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    /* Space for scrollbar */
+}
+
+/* Custom Scrollbar Styling */
+.recent-activity-section .table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.recent-activity-section .table-container::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: 4px;
+}
+
+.recent-activity-section .table-container::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+.recent-activity-section .table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+}
+
+/* Force table cells to stay on one line to trigger horizontal scroll */
+.recent-activity-section .table th,
+.recent-activity-section .table td {
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 16px;
+        min-height: 0;
+    }
+
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Table Mobile Card Layout Overrides */
+    .audit-logs-page .mobile-layout-cards .table td:nth-child(1),
+    .audit-logs-page .mobile-layout-cards .table td:nth-child(2) {
+        width: 100% !important;
+        display: block !important;
+        text-align: left !important;
+        justify-content: flex-start !important;
+        padding-bottom: 2px !important;
+    }
+
+    .audit-logs-page .mobile-layout-cards .table td:nth-child(2) {
+        padding-top: 0 !important;
+    }
+
+    .audit-logs-page .mobile-layout-cards .table td:nth-child(2) span {
+        display: inline-block;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+}
+
+/* Time Filter Dropdown */
+.time-filter-dropdown {
+    position: relative;
+    z-index: 50;
+}
+
+.dropdown-toggle {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    /* Pill shape */
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+    justify-content: space-between;
+    transition: all 0.2s;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle.active {
+    border-color: var(--color-primary);
+    color: var(--color-text-primary);
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    opacity: 0.7;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 180px;
+    background-color: var(--modal-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 101;
+}
+
+.dropdown-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+
+.dropdown-item.selected {
+    color: var(--color-primary);
+    /* Blue text for selected */
+    background-color: rgba(14, 165, 233, 0.1);
+}
+
+.check-icon {
+    color: var(--color-primary);
+}
+
+.dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    cursor: default;
+    background-color: transparent;
+}

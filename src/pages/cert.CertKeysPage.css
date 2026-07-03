@@ -1,0 +1,143 @@
+/* ── CA Badge Pills ──────────────────────────────────────────────────────── */
+.ck-ca-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.ck-ca-badge--root {
+    background: rgba(168, 85, 247, 0.12);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.ck-ca-badge--intermediate {
+    background: rgba(0, 168, 255, 0.12);
+    color: var(--color-primary);
+    border: 1px solid rgba(0, 168, 255, 0.25);
+}
+
+.ck-ca-badge--none {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--color-text-muted);
+    border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+/* ── Hierarchy Tier Pills ────────────────────────────────────────────────── */
+.ck-hierarchy-cell {
+    display: flex;
+    align-items: center;
+}
+
+.ck-hierarchy-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ck-hierarchy-pill--root {
+    background: rgba(168, 85, 247, 0.08);
+    color: #a855f7;
+}
+
+.ck-hierarchy-pill--ica {
+    background: rgba(0, 168, 255, 0.08);
+    color: var(--color-primary);
+}
+
+.ck-hierarchy-pill--leaf {
+    background: rgba(0, 208, 132, 0.08);
+    color: var(--color-success);
+}
+
+/* ── Key Icon ────────────────────────────────────────────────────────────── */
+.ck-key-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ── Hierarchy Legend ────────────────────────────────────────────────────── */
+.ck-hierarchy-legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 14px 20px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+}
+
+.ck-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+/* ── Info Boxes ──────────────────────────────────────────────────────────── */
+.ck-info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+.ck-info-box--blue {
+    background: rgba(0, 168, 255, 0.06);
+    border: 1px solid rgba(0, 168, 255, 0.15);
+}
+
+.ck-info-box--red {
+    background: rgba(255, 71, 87, 0.06);
+    border: 1px solid rgba(255, 71, 87, 0.15);
+}
+
+.ck-info-box--purple {
+    background: rgba(168, 85, 247, 0.06);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    color: var(--color-text-primary);
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Table Wrapper ───────────────────────────────────────────────────────── */
+.table-wrapper {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+}
+
+.table-header-title {
+    padding: 16px 20px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Loading ─────────────────────────────────────────────────────────────── */
+.ck-loading {
+    padding: 48px;
+    text-align: center;
+    color: var(--color-text-secondary);
+}

@@ -314,3 +314,76 @@
     color: var(--color-primary);
     border-color: var(--color-primary);
 }
+
+/* ── Certificate Manager additions ── */
+.nav-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item-parent {
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-align: left;
+    width: 100%;
+}
+
+.nav-item-parent.active.expanded {
+    background-color: transparent;
+    color: var(--color-text-primary);
+}
+
+.nav-expand-chevron {
+    margin-left: auto;
+    transition: transform var(--transition-fast) ease;
+    flex-shrink: 0;
+}
+
+.nav-expand-chevron.open {
+    transform: rotate(90deg);
+}
+
+.nav-subitems {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-base) ease;
+    display: flex;
+    flex-direction: column;
+    padding-left: 12px;
+}
+
+.nav-subitems.open {
+    max-height: 350px;
+}
+
+.nav-subitem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: 8px 16px;
+    margin-bottom: var(--spacing-xs);
+    border-radius: 50px;
+    margin-right: 8px;
+    color: var(--color-text-secondary);
+    font-size: calc(var(--font-size-sm) - 1px);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.nav-subitem:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-primary);
+}
+
+.nav-subitem.active {
+    background-color: var(--nav-item-active-bg);
+    color: var(--nav-item-active-text);
+    font-weight: 600;
+}
+
+.nav-chevron-sub {
+    margin-left: auto;
+}
