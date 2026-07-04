@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import {
     Shield, Check, Crown, Network, Download,
-    Copy, GitBranch, ChevronRight, Zap
+    Copy, GitBranch, ChevronRight, Zap, HelpCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import PageHeader from '../components/PageHeader';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import Badge from '../components/Badge';
 import { useCert } from '../context/cert.CertContext';
 import {
     validateDisplayName,
-    validateSubjectDN,
+    validateCN,
+    validateO,
+    validateC,
     validateICAValidity,
     validateLeafValidity,
     validateCsrPem
@@ -260,7 +263,9 @@ const IssueICATab = ({ keys, issueIntermediate }) => {
     const [form, setForm] = useState({
         rootKeyId: '',
         name: '',
-        subjectDN: '',
+        commonName: '',
+        organizationName: '',
+        country: '',
         validityDays: 1825,
     });
     const [errors, setErrors] = useState({});
@@ -268,13 +273,20 @@ const IssueICATab = ({ keys, issueIntermediate }) => {
     const [loading, setLoading] = useState(false);
 
     const handleFormChange = (field, value) => {
-        setForm(prev => ({ ...prev, [field]: value }));
+        let normalizedValue = value;
+        if (field === 'country') {
+            normalizedValue = value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 2);
+        }
+
+        setForm(prev => ({ ...prev, [field]: normalizedValue }));
         
         let err = null;
         if (field === 'rootKeyId') err = value ? null : 'Select a Root CA key';
-        if (field === 'name') err = validateDisplayName(value);
-        if (field === 'subjectDN') err = validateSubjectDN(value);
-        if (field === 'validityDays') err = validateICAValidity(value);
+        if (field === 'name') err = validateDisplayName(normalizedValue);
+        if (field === 'commonName') err = validateCN(normalizedValue);
+        if (field === 'organizationName') err = validateO(normalizedValue);
+        if (field === 'country') err = validateC(normalizedValue);
+        if (field === 'validityDays') err = validateICAValidity(normalizedValue);
 
         setErrors(prev => ({ ...prev, [field]: err }));
     };
@@ -282,21 +294,36 @@ const IssueICATab = ({ keys, issueIntermediate }) => {
     const handleIssue = async () => {
         const keyErr = form.rootKeyId ? null : 'Select a Root CA key';
         const nameErr = validateDisplayName(form.name);
-        const dnErr = validateSubjectDN(form.subjectDN);
+        const cnErr = validateCN(form.commonName);
+        const oErr = validateO(form.organizationName);
+        const cErr = validateC(form.country);
         const validityErr = validateICAValidity(form.validityDays);
 
-        if (keyErr || nameErr || dnErr || validityErr) {
-            setErrors({ rootKeyId: keyErr, name: nameErr, subjectDN: dnErr, validityDays: validityErr });
-            toast.error(keyErr || nameErr || dnErr || validityErr);
+        if (keyErr || nameErr || cnErr || oErr || cErr || validityErr) {
+            setErrors({ 
+                rootKeyId: keyErr, 
+                name: nameErr, 
+                commonName: cnErr, 
+                organizationName: oErr, 
+                country: cErr, 
+                validityDays: validityErr 
+            });
+            toast.error(keyErr || nameErr || cnErr || oErr || cErr || validityErr);
             return;
         }
 
         setLoading(true);
         setResult(null);
         try {
+            const dnComponents = [];
+            dnComponents.push(`CN=${form.commonName.trim()}`);
+            if (form.organizationName.trim()) dnComponents.push(`O=${form.organizationName.trim()}`);
+            if (form.country.trim()) dnComponents.push(`C=${form.country.trim().toUpperCase()}`);
+            const subjectDN = dnComponents.join(',');
+
             const res = await issueIntermediate(form.rootKeyId, {
                 name: form.name,
-                subjectDN: form.subjectDN,
+                subjectDN,
                 validityDays: parseInt(form.validityDays) || 1825
             });
             setResult(res);
@@ -308,10 +335,15 @@ const IssueICATab = ({ keys, issueIntermediate }) => {
         }
     };
 
-    // Only ROOT CA keys can issue Intermediate CAs
     const rootKeys = keys.filter(k =>
         k.caType === 'ROOT' && (k.status === 'active' || k.status === 'ACTIVE')
     );
+
+    const dnComponentsPreview = [];
+    if (form.commonName) dnComponentsPreview.push(`CN=${form.commonName}`);
+    if (form.organizationName) dnComponentsPreview.push(`O=${form.organizationName}`);
+    if (form.country) dnComponentsPreview.push(`C=${form.country}`);
+    const dnPreview = dnComponentsPreview.join(', ') || 'CN=—';
 
     return (
         <div>
@@ -339,7 +371,7 @@ const IssueICATab = ({ keys, issueIntermediate }) => {
                     {errors.rootKeyId && <p className="form-error-msg">{errors.rootKeyId}</p>}
                     {rootKeys.length === 0 && (
                         <p className="form-hint" style={{ color: 'var(--color-error)' }}>
-                            ⚠ No active Root CA keys found. The Root CA is created automatically on server startup. Check your backend seed.
+                            ⚠ No active Root CA keys found. Please setup a Root CA first.
                         </p>
                     )}
                     {rootKeys.length > 0 && !errors.rootKeyId && (
@@ -362,22 +394,85 @@ const IssueICATab = ({ keys, issueIntermediate }) => {
                     )}
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Subject DN <span className="required">*</span></label>
-                    <input
-                        className={`form-input ${errors.subjectDN ? 'form-input-error' : ''}`}
-                        placeholder="CN=QuantumVault Issuing CA G2,O=QuantumVault,C=US"
-                        value={form.subjectDN}
-                        onChange={e => handleFormChange('subjectDN', e.target.value)}
-                    />
-                    {errors.subjectDN ? (
-                        <p className="form-error-msg">{errors.subjectDN}</p>
-                    ) : (
-                        <p className="form-hint">X.509 Distinguished Name embedded in the ICA certificate.</p>
-                    )}
+                <section style={{ margin: '24px 0', borderTop: '1px solid var(--color-border)', paddingTop: 20 }}>
+                    <h4 style={{ margin: '0 0 16px 0', color: 'var(--color-text-primary)' }}>Subject Identity (Distinguished Name)</h4>
+                    
+                    <div className="form-group">
+                        <label className="form-label">Common Name (CN) <span className="required">*</span></label>
+                        <input
+                            type="text"
+                            className={`form-input ${errors.commonName ? 'form-input-error' : ''}`}
+                            placeholder="e.g. QuantumVault Issuing CA G2"
+                            value={form.commonName}
+                            onChange={e => handleFormChange('commonName', e.target.value)}
+                        />
+                        {errors.commonName && <p className="form-error-msg">{errors.commonName}</p>}
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Organization (O)</label>
+                        <input
+                            type="text"
+                            className={`form-input ${errors.organizationName ? 'form-input-error' : ''}`}
+                            placeholder="e.g. Acme Corporation"
+                            value={form.organizationName}
+                            onChange={e => handleFormChange('organizationName', e.target.value)}
+                        />
+                        {errors.organizationName && <p className="form-error-msg">{errors.organizationName}</p>}
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Country Code (C)</label>
+                        <input
+                            type="text"
+                            className={`form-input ${errors.country ? 'form-input-error' : ''}`}
+                            placeholder="e.g. US, IN, GB"
+                            value={form.country}
+                            onChange={e => handleFormChange('country', e.target.value)}
+                            style={{ textTransform: 'uppercase' }}
+                        />
+                        {errors.country && <p className="form-error-msg">{errors.country}</p>}
+                    </div>
+
+                    <div style={{ 
+                        background: 'var(--color-bg-tertiary)', 
+                        border: '1px solid var(--color-border)', 
+                        borderRadius: 'var(--radius-md)', 
+                        padding: '12px 14px', 
+                        marginTop: 16
+                    }}>
+                        <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)', marginBottom: 4, fontWeight: 700 }}>
+                            Subject DN Preview
+                        </div>
+                        <div style={{ fontFamily: 'monospace', fontSize: '12.5px', color: 'var(--color-text-secondary)', wordBreak: 'break-all' }}>
+                            {dnPreview}
+                        </div>
+                    </div>
+                </section>
+
+                <div className="form-group" style={{ borderTop: '1px solid var(--color-border)', paddingTop: 20 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                        <label className="form-label" style={{ margin: 0 }}>Key Usage</label>
+                        <HelpCircle size={14} style={{ color: 'var(--color-text-muted)', cursor: 'help' }} title="Intermediate CA key usage is defined by the X.509 standard and cannot be modified." />
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <Badge variant="info">Certificate Signing (keyCertSign)</Badge>
+                        <Badge variant="info">CRL Signing (cRLSign)</Badge>
+                        <Badge variant="info">Digital Signature (digitalSignature)</Badge>
+                    </div>
                 </div>
 
                 <div className="form-group">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                        <label className="form-label" style={{ margin: 0 }}>Extended Key Usage (EKU)</label>
+                        <HelpCircle size={14} style={{ color: 'var(--color-text-muted)', cursor: 'help' }} title="Intermediate CA key usage is defined by the X.509 standard and cannot be modified." />
+                    </div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                        <Badge variant="default">None (Standard CA)</Badge>
+                    </div>
+                </div>
+
+                <div className="form-group" style={{ borderTop: '1px solid var(--color-border)', paddingTop: 20 }}>
                     <label className="form-label">Validity (Days)</label>
                     <input
                         className={`form-input ${errors.validityDays ? 'form-input-error' : ''}`}
