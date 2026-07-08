@@ -106,9 +106,11 @@ export const CertProvider = ({ children }) => {
         }
     };*/
 
-    const loadAllData = async () => {
+    const loadAllData = async (background = false) => {
         try {
-            setLoading(true);
+            if (!background) {
+                setLoading(true);
+            }
 
             // 1. Token ensure karo PEHLE — parallel calls se pehle
             let token = localStorage.getItem('jwt_token');
@@ -226,7 +228,7 @@ export const CertProvider = ({ children }) => {
         try {
             const newKey = await api.createKey(name);
             toast.success(`Key "${name}" created successfully`);
-            await loadAllData();
+            await loadAllData(true);
             return newKey;
         } catch (err) {
             toast.error(err.message || 'Failed to create key');
@@ -238,7 +240,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.setupRootCA(payload);
             toast.success('Root CA created successfully');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to setup Root CA');
@@ -251,7 +253,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.issueIntermediate(rootKeyId, payload);
             toast.success(`Intermediate CA "${payload.name}" issued successfully`);
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to issue Intermediate CA');
@@ -264,7 +266,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.generateCSR(keyId, csrForm);
             toast.success('CSR generated successfully');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to generate CSR');
@@ -276,7 +278,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.importCertificate(pem, name, keyId, chain);
             toast.success('Certificate imported successfully');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to import certificate');
@@ -289,7 +291,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.signCsrInternally(csrPem, issuingKeyId, name, validityDays);
             toast.success('Leaf certificate issued successfully');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to sign CSR internally');
@@ -312,7 +314,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.downloadChain(id);
             toast.success('Certificate chain downloaded');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to download certificate chain');
@@ -324,7 +326,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.renewCert(id);
             toast.success('New CSR generated for renewal');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to renew certificate');
@@ -336,7 +338,7 @@ export const CertProvider = ({ children }) => {
         try {
             const result = await api.revokeCert(id, reason);
             toast.success('Certificate revoked');
-            await loadAllData();
+            await loadAllData(true);
             return result;
         } catch (err) {
             toast.error(err.message || 'Failed to revoke certificate');

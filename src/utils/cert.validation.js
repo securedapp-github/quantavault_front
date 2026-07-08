@@ -193,3 +193,33 @@ export const truncateName = (name) => {
     if (name.length <= limit) return name;
     return name.substring(0, limit) + '...';
 };
+
+/**
+ * Validates Common Name (CN)
+ */
+export const validateCN = (cn) => {
+    if (!cn || !cn.trim()) return 'Common Name (CN) is required';
+    if (cn.length > 64) return 'Common Name must be 64 characters or less';
+    if (/[<>;'"&]/.test(cn)) return 'Common Name cannot contain special characters (< > ; \' " &)';
+    return null;
+};
+
+/**
+ * Validates Organization (O)
+ */
+export const validateO = (o) => {
+    if (!o || !o.trim()) return null; // Optional
+    if (o.length > 64) return 'Organization must be 64 characters or less';
+    if (/[<>;'"&]/.test(o)) return 'Organization cannot contain special characters (< > ; \' " &)';
+    return null;
+};
+
+/**
+ * Validates Country (C)
+ */
+export const validateC = (c) => {
+    if (!c || !c.trim()) return null; // Optional
+    if (c.length !== 2) return 'Country must be exactly 2 letters';
+    if (!/^[A-Z]{2}$/.test(c.toUpperCase())) return 'Country must be A-Z letters only';
+    return null;
+};
