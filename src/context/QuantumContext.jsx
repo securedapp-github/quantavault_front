@@ -92,8 +92,12 @@ export const QuantumProvider = ({ children }) => {
         const guestUser = { name: 'Guest User', email: 'guest@quantumvault.io', avatar: 'G' };
         setUser(guestUser);
         localStorage.removeItem('jwt_token');
+        localStorage.removeItem('rs256_token');
         localStorage.removeItem('user_profile');
         localStorage.removeItem('lastActive');
+        if (window.CookieConsent) {
+            window.CookieConsent.logoutUser();
+        }
         // Clear caches
         localStorage.removeItem('cache_pqc_keys');
         localStorage.removeItem('cache_auth_keys');
@@ -175,15 +179,30 @@ export const QuantumProvider = ({ children }) => {
     // --- Auth ---
     /**
      * Finalizes the authentication process.
-     * Saves JWT and user profile to localStorage for persistence.
+     * Saves JWT, RS256 token and user profile to localStorage for persistence.
      * 
      * @param {Object} userData - User profile from API
      * @param {string} token - Valid JWT from API
+     * @param {string} [rs256Token] - Optional RS256 JWT for Cookie Consent SDK
      */
-    const login = (userData, token) => {
+    const login = (userData, token, rs256Token) => {
         if (token) {
             localStorage.setItem('jwt_token', token);
         }
+        if (rs256Token) {
+            localStorage.setItem('rs256_token', rs256Token);
+        }
+
+        // Link identity with Cookie Consent SDK if available
+        const activeToken = rs256Token || token;
+        if (window.CookieConsent && activeToken) {
+            try {
+                window.CookieConsent.loginUser(activeToken);
+            } catch (err) {
+                console.warn('[CookieConsent] Error linking user consent:', err);
+            }
+        }
+
         if (userData) {
             setUser(userData);
             localStorage.setItem('user_profile', JSON.stringify(userData));
@@ -213,7 +232,7 @@ export const QuantumProvider = ({ children }) => {
         setLoading(true);
         try {
             const result = await api.verify2FALogin(tempToken, code);
-            login(result.user, result.token);
+            login(result.user, result.token, result.rs256_token);
             setPending2FA(false);
             setPendingUser(null);
             setTempToken(null);
