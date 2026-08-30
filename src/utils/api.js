@@ -79,12 +79,6 @@ const api = {
             body: JSON.stringify({ code })
         }).then(handleResponse),
 
-    devBypassLogin: () =>
-        fetch(`${API_URL}/auth/dev-bypass`, {
-            method: 'POST',
-            headers: headers(false)
-        }).then(handleResponse),
-
     verify2FALogin: (tempToken, code) =>
         fetch(`${API_URL}/auth/2fa/verify`, {
             method: 'POST',

@@ -71,19 +71,6 @@ const Login = () => {
     }
   };
 
-  const handleDevBypass = async () => {
-    setLoading(true);
-    try {
-      const result = await api.devBypassLogin();
-      login(result.user, result.token, result.rs256_token);
-      navigate('/dashboard');
-    } catch (err) {
-      setLoading(false);
-      console.error("Dev bypass login failed:", err);
-      setError(err.message || "Failed to complete dev bypass login");
-    }
-  };
-
   const loginGoogle = useGoogleLogin({
     onSuccess: handleGoogleSuccess,
     onError: () => setError('Google Login Failed'),
@@ -161,34 +148,6 @@ const Login = () => {
               </>
             )}
           </Button>
-
-          {!isAuthenticated && (
-            <button
-              type="button"
-              className="dev-bypass-btn"
-              onClick={handleDevBypass}
-              style={{
-                marginTop: '12px',
-                width: '100%',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                background: 'rgba(99, 102, 241, 0.15)',
-                border: '1px solid rgba(99, 102, 241, 0.4)',
-                color: '#818cf8',
-                fontWeight: 600,
-                fontSize: '14px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <span>⚡</span>
-              Quick Local Login (Bypass OAuth)
-            </button>
-          )}
 
           {error && <p style={{ color: '#FF4757', marginTop: '8px', fontSize: '13px' }}>{error}</p>}
         </div>
