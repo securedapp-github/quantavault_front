@@ -117,8 +117,8 @@ const MainLayout = () => {
 
 function App() {
   useEffect(() => {
-    const tenantId = import.meta.env.VITE_COOKIE_TENANT_ID || 'Harin The great';
-    const appId = import.meta.env.VITE_COOKIE_APP_ID || 'main-website';
+    const tenantId = import.meta.env.VITE_COOKIE_TENANT_ID || 'TENANT_ID';
+    const appId = import.meta.env.VITE_COOKIE_APP_ID || 'APP_ID';
     if (window.CookieConsent) {
       window.CookieConsent.init(tenantId, appId);
     }
@@ -141,7 +141,7 @@ function App() {
             <Route element={<MainLayout />}>
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
-              
+
               {/* ── CBOM Module Routes ── */}
               <Route path="cbom" element={<CbomLayout />}>
                 <Route index element={<CbomDashboardWrapper />} />
