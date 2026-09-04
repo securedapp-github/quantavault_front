@@ -10,13 +10,17 @@ import {
     Settings,
     ChevronRight,
     LogOut,
-    ChevronUp,
     Sun,
     Moon,
     Award,
     FileBadge,
     ShieldCheck,
-    ScrollText
+    ScrollText,
+    Database,
+    AlertTriangle,
+    GitPullRequest,
+    Scan,
+    Cookie,
 } from 'lucide-react';
 import { useQuantum } from '../context/QuantumContext';
 import { useTheme } from '../context/ThemeContext';
@@ -33,7 +37,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { path: '/settings', label: 'Settings', icon: <Settings size={20} /> },
     ];
 
-    // ── NEW: Certificate Manager sub-items ──
+    // Certificate Manager sub-items
     const certNavItems = [
         { path: '/cert-manager', label: 'Overview', icon: <Award size={20} />, end: true },
         { path: '/cert-manager/certificates', label: 'Certificates', icon: <FileBadge size={20} />, end: false },
@@ -43,15 +47,28 @@ const Sidebar = ({ isOpen, onClose }) => {
         { path: '/cert-manager/audit', label: 'Cert Audit Logs', icon: <Activity size={20} />, end: false },
     ];
 
+    // CBOM sub-items
+    const cbomNavItems = [
+        { path: '/cbom', label: 'Dashboard', icon: <Scan size={20} />, end: true },
+        { path: '/cbom/inventory', label: 'Asset Inventory', icon: <Database size={20} />, end: false },
+        { path: '/cbom/risk', label: 'Risk Analysis', icon: <AlertTriangle size={20} />, end: false },
+        { path: '/cbom/migration', label: 'Migration Strategy', icon: <GitPullRequest size={20} />, end: false },
+        { path: '/cbom/logs', label: 'Scan Audit Logs', icon: <Activity size={20} />, end: false },
+    ];
+
     const location = useLocation();
     const isCertActive = location.pathname.startsWith('/cert-manager');
+    const isCbomActive = location.pathname.startsWith('/cbom');
     const [certOpen, setCertOpen] = useState(isCertActive);
+    const [cbomOpen, setCbomOpen] = useState(isCbomActive);
 
     useEffect(() => {
-        if (isCertActive) {
-            setCertOpen(true);
-        }
+        if (isCertActive) setCertOpen(true);
     }, [isCertActive]);
+
+    useEffect(() => {
+        if (isCbomActive) setCbomOpen(true);
+    }, [isCbomActive]);
 
     // Use context for logout and user info
     const { logout, user } = useQuantum();
@@ -65,8 +82,6 @@ const Sidebar = ({ isOpen, onClose }) => {
         e.stopPropagation();
         if (window.confirm('Are you sure you want to log out?')) {
             logout();
-            // Navigation handled by protected route or manual redirect if needed, 
-            // but for now we'll force it to login page just to be safe in this demo:
             window.location.href = '/login';
         }
     };
@@ -78,9 +93,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                 onClick={onClose}
             />
             <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-                {/* Collapse Toggle - Visual Match */}
-                {/* Collapse Toggle Removed */}
-
                 {/* Logo */}
                 <div className="sidebar-header">
                     <div className="logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -112,6 +124,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                             )}
                         </NavLink>
                     ))}
+
                     {/* Collapsible Certificate Manager Group */}
                     <div className="nav-group">
                         <button
@@ -149,6 +162,44 @@ const Sidebar = ({ isOpen, onClose }) => {
                             ))}
                         </div>
                     </div>
+
+                    {/* Collapsible CBOM Group */}
+                    <div className="nav-group">
+                        <button
+                            type="button"
+                            className={`nav-item nav-item-parent ${isCbomActive ? 'active' : ''} ${cbomOpen ? 'expanded' : ''}`}
+                            onClick={() => setCbomOpen(!cbomOpen)}
+                        >
+                            <span className="nav-icon"><Scan size={20} /></span>
+                            <span className="nav-label">CBOM</span>
+                            <ChevronRight
+                                size={16}
+                                className={`nav-expand-chevron ${cbomOpen ? 'open' : ''}`}
+                            />
+                        </button>
+
+                        <div className={`nav-subitems ${cbomOpen ? 'open' : ''}`}>
+                            {cbomNavItems.map((item) => (
+                                <NavLink
+                                    key={item.path}
+                                    to={item.path}
+                                    end={item.end}
+                                    className={({ isActive }) =>
+                                        `nav-subitem ${isActive ? 'active' : ''}`
+                                    }
+                                    onClick={() => window.innerWidth < 1024 && onClose()}
+                                >
+                                    {({ isActive }) => (
+                                        <>
+                                            <span className="nav-icon">{item.icon}</span>
+                                            <span className="nav-label">{item.label}</span>
+                                            {isActive && <ChevronRight size={14} className="nav-chevron-sub" />}
+                                        </>
+                                    )}
+                                </NavLink>
+                            ))}
+                        </div>
+                    </div>
                 </nav>
 
                 {/* User Info Footer */}
@@ -163,8 +214,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                                             alt="Profile"
                                             referrerPolicy="no-referrer"
                                             onError={(e) => {
-                                                e.target.style.display = 'none'; // Hide image
-                                                e.target.nextSibling.style.display = 'flex'; // Show text fallback
+                                                e.target.style.display = 'none';
+                                                e.target.nextSibling.style.display = 'flex';
                                             }}
                                             style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
                                         />
@@ -187,6 +238,14 @@ const Sidebar = ({ isOpen, onClose }) => {
                         <button className="logout-button-compact" onClick={handleLogout} title="Logout">
                             <LogOut size={18} />
                             <span>Logout</span>
+                        </button>
+                        <button
+                            className="theme-toggle-compact"
+                            onClick={() => window.CookieConsent?.openPreferences()}
+                            title="Cookie Consent & Privacy Preferences"
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Cookie size={18} />
                         </button>
                         <button
                             className="theme-toggle-compact"

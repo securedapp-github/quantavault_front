@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
@@ -23,6 +23,16 @@ import GenerateCSRPage from './pages/cert.GenerateCSRPage';
 import InternalCAPage from './pages/cert.InternalCAPage';
 import CertAuditLogsPage from './pages/cert.CertAuditLogsPage';
 import SetupRootCAModal from './components/cert.SetupRootCAModal';
+
+// CBOM imports
+import CbomLayout, {
+  CbomDashboardWrapper,
+  CbomInventoryWrapper,
+  CbomRiskWrapper,
+  CbomMigrationWrapper,
+  CbomLogsWrapper
+} from './pages/cbom/CbomLayout';
+
 import './App.css';
 
 const RequireAuth = ({ children }) => {
@@ -106,6 +116,14 @@ const MainLayout = () => {
 };
 
 function App() {
+  useEffect(() => {
+    const tenantId = import.meta.env.VITE_COOKIE_TENANT_ID || 'TENANT_ID';
+    const appId = import.meta.env.VITE_COOKIE_APP_ID || 'APP_ID';
+    if (window.CookieConsent) {
+      window.CookieConsent.init(tenantId, appId);
+    }
+  }, []);
+
   return (
     <QuantumProvider>
       <CertProvider>
@@ -123,6 +141,16 @@ function App() {
             <Route element={<MainLayout />}>
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
+
+              {/* ── CBOM Module Routes ── */}
+              <Route path="cbom" element={<CbomLayout />}>
+                <Route index element={<CbomDashboardWrapper />} />
+                <Route path="inventory" element={<CbomInventoryWrapper />} />
+                <Route path="risk" element={<CbomRiskWrapper />} />
+                <Route path="migration" element={<CbomMigrationWrapper />} />
+                <Route path="logs" element={<CbomLogsWrapper />} />
+              </Route>
+
               <Route path="pqc-keys" element={<PQCKeys />} />
               <Route path="authentication-keys" element={<AuthenticationKeys />} />
               <Route path="policies" element={<Policies />} />

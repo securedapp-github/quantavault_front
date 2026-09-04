@@ -60,7 +60,7 @@ const Login = () => {
       } else {
         // No 2FA — login directly with JWT
         // Note: loading will be cleared by loadAllData in QuantumContext after isAuthenticated changes
-        login(result.user, result.token);
+        login(result.user, result.token, result.rs256_token);
         navigate('/dashboard');
       }
 
@@ -150,10 +150,6 @@ const Login = () => {
           </Button>
 
           {error && <p style={{ color: '#FF4757', marginTop: '8px', fontSize: '13px' }}>{error}</p>}
-
-
-
-
         </div>
 
         <footer className="login-footer">

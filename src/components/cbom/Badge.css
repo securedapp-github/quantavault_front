@@ -1,0 +1,118 @@
+/* ── Oval Severity Badge (Pill Shape) ── */
+.badge-severity {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full, 50px);
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.badge-severity-critical {
+    background-color: rgba(255, 71, 87, 0.18);
+    color: #FF4757;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.badge-severity-high {
+    background-color: rgba(255, 176, 32, 0.18);
+    color: #FFB020;
+    border: 1px solid rgba(255, 176, 32, 0.3);
+}
+
+.badge-severity-medium {
+    background-color: rgba(234, 179, 8, 0.18);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.badge-severity-safe,
+.badge-severity-low,
+.badge-severity-active {
+    background-color: rgba(0, 208, 132, 0.18);
+    color: #00D084;
+    border: 1px solid rgba(0, 208, 132, 0.3);
+}
+
+.badge-severity-info {
+    background-color: rgba(0, 168, 255, 0.18);
+    color: #00A8FF;
+    border: 1px solid rgba(0, 168, 255, 0.3);
+}
+
+.badge-severity-default {
+    background-color: var(--color-bg-tertiary, rgba(255, 255, 255, 0.05));
+    color: var(--color-text-secondary, #94a3b8);
+}
+
+/* ── Rectangular Type Badge (Box Shape matching TIER 1 · ISSUING CA) ── */
+.badge-type {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 6px;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.badge-type-algorithm,
+.badge-type-primary {
+    background-color: rgba(0, 168, 255, 0.14);
+    color: #00A8FF;
+    border: 1px solid rgba(0, 168, 255, 0.25);
+}
+
+.badge-type-certificate {
+    background-color: rgba(168, 85, 247, 0.14);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.badge-type-protocol {
+    background-color: rgba(0, 208, 132, 0.14);
+    color: #00D084;
+    border: 1px solid rgba(0, 208, 132, 0.25);
+}
+
+.badge-type-keystore,
+.badge-type-key_material,
+.badge-type-secret {
+    background-color: rgba(255, 176, 32, 0.14);
+    color: #FFB020;
+    border: 1px solid rgba(255, 176, 32, 0.25);
+}
+
+.badge-type-library,
+.badge-type-default {
+    background-color: rgba(107, 114, 128, 0.15);
+    color: var(--color-text-secondary, #94a3b8);
+    border: 1px solid rgba(107, 114, 128, 0.25);
+}
+
+/* Original fallbacks for backward compatibility */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: var(--radius-full, 50px);
+    white-space: nowrap;
+}
+
+.badge-success { background-color: rgba(0, 208, 132, 0.18); color: #00D084; }
+.badge-warning { background-color: rgba(255, 176, 32, 0.18); color: #FFB020; }
+.badge-error   { background-color: rgba(255, 71, 87, 0.18); color: #FF4757; }
+.badge-info    { background-color: rgba(0, 168, 255, 0.18); color: #00A8FF; }
+.badge-default { background-color: var(--color-bg-tertiary, rgba(255, 255, 255, 0.05)); color: var(--color-text-secondary, #94a3b8); }
